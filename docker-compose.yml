@@ -1,0 +1,29 @@
+version: "3.4"
+
+services:
+  app:
+    image: ${IMAGE_APP}
+    container_name: equipment__app
+    build:
+      context: ./src
+    ports:
+      - 127.0.0.1:${PORT}:${PORT}
+    env_file:
+      - .env
+    environment:
+      WAIT_HOSTS: db:5432
+    depends_on:
+      - db
+
+  db:
+    container_name: equipment__db
+    image: ${IMAGE_DB}
+    build: ./postgres
+
+    volumes: [ "db_volume:/var/lib/postgresql/data/" ]
+
+    restart: always
+
+
+volumes:
+  db_volume:
