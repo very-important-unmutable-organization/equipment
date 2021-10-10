@@ -1,12 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"io"
 	"net/http"
 	"os"
 )
@@ -38,7 +40,29 @@ func main() {
 			http.Error(w, http.StatusText(500), 500)
 			return
 		}
-		_, _ = w.Write([]byte(fmt.Sprint(equipments)))
+		enc := json.NewEncoder(w)
+		if err := enc.Encode(equipments); err != nil {
+			http.Error(w, http.StatusText(500), 500)
+			return
+		}
+	})
+
+	r.Post("/equipment", func(w http.ResponseWriter, r *http.Request) {
+		data, err := io.ReadAll(r.Body)
+		if err != nil {
+			http.Error(w, http.StatusText(500), 500)
+			return
+		}
+		eqt := new(domain.Equipment)
+		if err = json.Unmarshal(data, eqt); err != nil {
+			http.Error(w, http.StatusText(422), 422)
+			return
+		}
+		res := db.Create(eqt)
+		if res.Error != nil {
+			http.Error(w, http.StatusText(500), 500)
+			return
+		}
 	})
 
 	port := os.Getenv("PORT")
