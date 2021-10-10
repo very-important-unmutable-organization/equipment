@@ -19,6 +19,8 @@ services:
     container_name: equipment__db
     image: ${IMAGE_DB}
     build: ./postgres
+    env_file:
+      - .env
 
     volumes: [ "db_volume:/var/lib/postgresql/data/" ]
 
