@@ -40,7 +40,11 @@ func main() {
 			http.Error(w, http.StatusText(500), 500)
 			return
 		}
-		_, _ = w.Write([]byte(fmt.Sprint(equipments)))
+		enc := json.NewEncoder(w)
+		if err := enc.Encode(equipments); err != nil {
+			http.Error(w, http.StatusText(500), 500)
+			return
+		}
 	})
 
 	r.Post("/equipment", func(w http.ResponseWriter, r *http.Request) {
