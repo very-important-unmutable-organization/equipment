@@ -69,5 +69,5 @@ func main() {
 	if port == "" {
 		panic(fmt.Errorf("PORT env isn't set"))
 	}
-	http.ListenAndServe(fmt.Sprintf(":%s", port), r)
+	_ = http.ListenAndServe(fmt.Sprintf(":%s", port), r)
 }
