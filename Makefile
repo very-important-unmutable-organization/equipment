@@ -27,3 +27,6 @@ lint: install-tools
 
 fmt:
 	cd src && go fmt ./...
+
+goimports: install-tools
+	cd src && goimports -w  -local github.com/very-important-unmutable-organization/equipment ./

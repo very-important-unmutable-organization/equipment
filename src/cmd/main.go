@@ -3,14 +3,16 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
-	"github.com/very-important-unmutable-organization/equipment/internal/domain"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+
+	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 
 func main() {
