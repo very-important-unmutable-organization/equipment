@@ -24,3 +24,6 @@ install-tools:
 
 lint: install-tools
 	cd src && golangci-lint run --allow-parallel-runners ./...
+
+fmt:
+	cd src && go fmt ./...
