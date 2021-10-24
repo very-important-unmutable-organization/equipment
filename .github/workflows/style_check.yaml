@@ -1,0 +1,23 @@
+name: Format and lint
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+
+jobs:
+  format-lint:
+    runs-on: ubuntu-latest
+    name: Format and lint
+    steps:
+      - uses: actions/checkout@v2.3.4
+        with:
+          submodules: true
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ^1.17
+
+      - name: Lint
+        run: make lint
