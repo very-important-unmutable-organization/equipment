@@ -21,3 +21,6 @@ jobs:
 
       - name: Lint
         run: make lint
+
+      - name: Format
+        run: make fmt && git diff --quiet
