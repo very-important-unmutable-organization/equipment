@@ -24,3 +24,6 @@ jobs:
 
       - name: Format
         run: make fmt && git diff --quiet
+
+      - name: Goimports
+        run: make goimports && git diff --quiet
