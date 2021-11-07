@@ -7,33 +7,35 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/very-important-unmutable-organization/equipment/config"
+	"github.com/very-important-unmutable-organization/equipment/internal/repository"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	_ "gorm.io/driver/postgres"
+	_ "gorm.io/gorm"
+
+	"github.com/sirupsen/logrus"
 
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 
 func main() {
+	cfg := config.Init()
+	logrus.Println(cfg)
+
+	db, err := repository.InitDb(repository.Config(cfg.Database))
+	if err != nil {
+		logrus.Errorf("error occured while initialzing db client: %s", err.Error())
+		return
+	}
+
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
-
-	dsn := fmt.Sprintf("host=db port=5432 user=%s password=%s dbname=%s",
-		os.Getenv("POSTGRES_USER"),
-		os.Getenv("POSTGRES_PASSWORD"),
-		os.Getenv("POSTGRES_DB"))
-	db, err := gorm.Open(postgres.Open(dsn))
-	if err != nil {
-		panic(fmt.Sprintf("could not connect to database: %s", err))
-	}
-	if err = db.AutoMigrate(&domain.Equipment{}); err != nil {
-		panic(err)
-	}
 
 	r.Get("/equipment", func(w http.ResponseWriter, r *http.Request) {
 		equipments := new([]domain.Equipment)
