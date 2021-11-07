@@ -30,11 +30,16 @@ jobs:
   build:
     name: build docker image
     runs-on: ubuntu-20.04
+    needs: 
+      - lint
 
     steps:
       - uses: actions/checkout@v2.3.4
         with:
           submodules: true
+      
+      - name: Create .env file
+        run: echo ${DOTENV} > .env
 
       - uses: docker/login-action@v1
         name: login to ghcr
@@ -44,10 +49,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build and push images
-        env:
-          IMAGE_APP: ${{ env.IMAGE_APP }}
-          IMAGE_DB: ${{ env.IMAGE_DB }}
         run: |
           make build push
-          echo ${IMAGE_APP}
-          echo ${IMAGE_DB}
+          cat .env
