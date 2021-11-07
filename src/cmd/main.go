@@ -3,11 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/very-important-unmutable-organization/equipment/config"
-	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/very-important-unmutable-organization/equipment/config"
+	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -15,6 +16,7 @@ import (
 	_ "gorm.io/gorm"
 
 	"github.com/sirupsen/logrus"
+
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 

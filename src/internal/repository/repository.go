@@ -2,9 +2,11 @@ package repository
 
 import (
 	"fmt"
-	"github.com/very-important-unmutable-organization/equipment/internal/domain"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 
 type Config struct {
