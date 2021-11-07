@@ -4,37 +4,28 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/very-important-unmutable-organization/equipment/config"
+	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 	"io"
 	"net/http"
 	"os"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	_ "gorm.io/driver/postgres"
+	_ "gorm.io/gorm"
 
+	"github.com/sirupsen/logrus"
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 
 func main() {
 	cfg := config.Init()
+	logrus.Println(cfg)
 
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s",
-		cfg.Database.Host,
-		cfg.Database.Port,
-		cfg.Database.User,
-		cfg.Database.Password,
-		cfg.Database.Database,
-	)
-
-	db, err := gorm.Open(postgres.Open(dsn))
-
+	db, err := repository.InitDb(repository.Config(cfg.Database))
 	if err != nil {
-		panic(fmt.Sprintf("could not connect to database: %s", err))
-	}
-
-	if err = db.AutoMigrate(&domain.Equipment{}); err != nil {
-		panic(err)
+		logrus.Errorf("error occured while initialzing db client: %s", err.Error())
+		return
 	}
 
 	r := chi.NewRouter()
