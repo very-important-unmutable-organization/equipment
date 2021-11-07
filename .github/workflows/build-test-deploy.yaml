@@ -39,6 +39,9 @@ jobs:
           submodules: true
       
       - name: Create .env file
+        env:
+          DOTENV: ${{ secrets.DOTENV }}
+          
         run: |
           echo ${DOTENV} > .env
           cat .env
