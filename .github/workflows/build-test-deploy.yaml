@@ -75,6 +75,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2.3.4
         with: 
+          ref: ci
           submodules: true
       
       - uses: docker/login-action@v1
@@ -102,4 +103,4 @@ jobs:
           echo "PORT=${PORT}" >> .env
       
       - name: run app
-        run: make pull up
+        run: make pull down up
