@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/very-important-unmutable-organization/equipment/config"
 	"io"
 	"net/http"
 	"os"
@@ -16,24 +17,32 @@ import (
 )
 
 func main() {
+	cfg := config.Init()
+
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s",
+		cfg.Database.Host,
+		cfg.Database.Port,
+		cfg.Database.User,
+		cfg.Database.Password,
+		cfg.Database.Database,
+	)
+
+	db, err := gorm.Open(postgres.Open(dsn))
+
+	if err != nil {
+		panic(fmt.Sprintf("could not connect to database: %s", err))
+	}
+
+	if err = db.AutoMigrate(&domain.Equipment{}); err != nil {
+		panic(err)
+	}
+
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
-
-	dsn := fmt.Sprintf("host=db port=5432 user=%s password=%s dbname=%s",
-		os.Getenv("POSTGRES_USER"),
-		os.Getenv("POSTGRES_PASSWORD"),
-		os.Getenv("POSTGRES_DB"))
-	db, err := gorm.Open(postgres.Open(dsn))
-	if err != nil {
-		panic(fmt.Sprintf("could not connect to database: %s", err))
-	}
-	if err = db.AutoMigrate(&domain.Equipment{}); err != nil {
-		panic(err)
-	}
 
 	r.Get("/equipment", func(w http.ResponseWriter, r *http.Request) {
 		equipments := new([]domain.Equipment)
