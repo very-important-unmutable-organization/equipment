@@ -1,0 +1,53 @@
+name: Deploy
+on: 
+  push:
+    branches:
+      - ci
+
+jobs:
+  lint:
+    name: Format and lint
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2.3.4
+        with:
+          submodules: true
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ^1.17
+
+      - name: Lint
+        run: make lint
+
+      - name: Format
+        run: make fmt && git diff --quiet
+
+      - name: Goimports
+        run: make goimports && git diff --quiet
+  
+  build:
+    name: build docker image
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2.3.4
+        with:
+          submodules: true
+
+      - uses: docker/login-action@v1
+        name: login to ghcr
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: build and push images
+        env:
+          IMAGE_APP: ${{ env.IMAGE_APP }}
+          IMAGE_DB: ${{ env.IMAGE_DB }}
+        run: |
+          make build push
+          echo ${IMAGE_APP}
+          echo ${IMAGE_DB}
