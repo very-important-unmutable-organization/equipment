@@ -5,33 +5,33 @@ on:
       - ci
 
 jobs:
-  # lint:
-  #   name: Format and lint
-  #   runs-on: ubuntu-20.04
+  lint:
+    name: Format and lint
+    runs-on: ubuntu-20.04
 
-  #   steps:
-  #     - uses: actions/checkout@v2.3.4
-  #       with:
-  #         submodules: true
+    steps:
+      - uses: actions/checkout@v2.3.4
+        with:
+          submodules: true
 
-  #     - uses: actions/setup-go@v2
-  #       with:
-  #         go-version: ^1.17
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ^1.17
 
-  #     - name: Lint
-  #       run: make lint
+      - name: Lint
+        run: make lint
 
-  #     - name: Format
-  #       run: make fmt && git diff --quiet
+      - name: Format
+        run: make fmt && git diff --quiet
 
-  #     - name: Goimports
-  #       run: make goimports && git diff --quiet
+      - name: Goimports
+        run: make goimports && git diff --quiet
   
   build:
     name: build docker image
     runs-on: ubuntu-20.04
-    # needs: 
-    #   - lint
+    needs: 
+      - lint
 
     steps:
       - uses: actions/checkout@v2.3.4
@@ -45,7 +45,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: build and push images
+      - name: create .env
         env:
           IMAGE_DB: ${{ secrets.IMAGE_DB }}
           IMAGE_APP: ${{ secrets.IMAGE_APP }}
@@ -61,5 +61,45 @@ jobs:
           echo "POSTGRES_USER=${POSTGRES_USER}" >> .env
           echo "POSTGRES_DB=${POSTGRES_DB}" >> .env
           echo "PORT=${PORT}" >> .env
+
+      - name: build and push images
+        run: |
           make build push
-          cat .env
+
+  deploy:
+    name: run the app
+    runs-on: self-hosted
+    needs: 
+      - build
+    
+    steps:
+      - uses: actions/checkout@v2.3.4
+        with: 
+          submodules: true
+      
+      - uses: docker/login-action@v1
+        name: login to ghcr
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: create .env
+        env:
+          IMAGE_DB: ${{ secrets.IMAGE_DB }}
+          IMAGE_APP: ${{ secrets.IMAGE_APP }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          PORT: ${{ secrets.PORT }}
+        
+        run: |
+          echo "IMAGE_DB=${IMAGE_DB}" >> .env
+          echo "IMAGE_APP=${IMAGE_APP}" >> .env
+          echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> .env
+          echo "POSTGRES_USER=${POSTGRES_USER}" >> .env
+          echo "POSTGRES_DB=${POSTGRES_DB}" >> .env
+          echo "PORT=${PORT}" >> .env
+      
+      - name: run app
+        run: make pull up
