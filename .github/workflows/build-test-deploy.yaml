@@ -53,7 +53,13 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           PORT: ${{ secrets.PORT }}
-
+        
         run: |
+          echo "IMAGE_DB=${IMAGE_DB}" >> .env
+          echo "IMAGE_APP=${IMAGE_APP}" >> .env
+          echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> .env
+          echo "POSTGRES_USER=${POSTGRES_USER}" >> .env
+          echo "POSTGRES_DB=${POSTGRES_DB}" >> .env
+          echo "PORT=${PORT}" >> .env
           make build push
           cat .env
