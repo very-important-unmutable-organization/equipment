@@ -8,7 +8,7 @@ on:
 
 jobs:
   format-lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Format and lint
     steps:
       - uses: actions/checkout@v2.3.4
