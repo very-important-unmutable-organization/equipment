@@ -1,9 +1,10 @@
 package domain
 
 import (
+	"time"
+
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
-	"time"
 )
 
 type Equipment struct {

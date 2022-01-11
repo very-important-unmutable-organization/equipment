@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/go-chi/chi v1.5.4
+	github.com/shopspring/decimal v1.2.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/viper v1.9.0
 	gorm.io/driver/postgres v1.1.1
