@@ -36,7 +36,13 @@ func InitDb(cfg Config) (*gorm.DB, error) {
 		panic(fmt.Sprintf("could not connect to database: %s", err))
 	}
 
-	if err = db.AutoMigrate(&domain.Equipment{}); err != nil {
+	if err = db.AutoMigrate(
+		&domain.Equipment{},
+		&domain.ItemType{},
+		&domain.Origin{},
+		&domain.State{},
+		&domain.Purpose{},
+	); err != nil {
 		panic(err)
 	}
 

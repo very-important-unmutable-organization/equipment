@@ -9,13 +9,13 @@ import (
 
 type Equipment struct {
 	gorm.Model
-	Category        Category `sql:"type:category"`
+	Category        Category `sql:"type:category;not null"`
 	Name            string   `sql:"type:varchar;not null"`
 	Description     string
 	SerialNumber    string   `sql:"not null"`
 	TypeCode        int      `sql:"not null"`
 	Type            ItemType `gorm:"foreignKey:TypeCode"`
-	Status          Status   `sql:"type:item_state"`
+	Status          Status   `sql:"type:status"`
 	StateCode       int
 	State           State           `gorm:"foreignKey:StateCode"`
 	PurposeCode     int             `sql:"not null"`
