@@ -14,17 +14,17 @@ type Equipment struct {
 	Description     string
 	SerialNumber    string   `sql:"not null"`
 	TypeCode        int      `sql:"not null"`
-	Type            ItemType `sql:"foreignKey:TypeCode"`
+	Type            ItemType `gorm:"foreignKey:TypeCode"`
 	Status          Status   `sql:"type:item_state"`
 	StateCode       int
-	State           State                  `sql:"foreignKey:StateCode"`
+	State           State           `gorm:"foreignKey:StateCode"`
 	PurposeCode     int                    `sql:"not null"`
-	Purpose         Purpose                `sql:"foreignKey:PurposeCode"`
+	Purpose         Purpose         `gorm:"foreignKey:PurposeCode"`
 	PurchaseDate    time.Time              `sql:"not null"`
 	Price           decimal.Decimal        `sql:"not null"`
 	Currency        currency               `sql:"type:currency;default:ruble"`
 	OriginCode      int                    `sql:"not null"`
-	Origin          Origin                 `sql:"foreignKey:OriginCode"`
+	Origin          Origin          `gorm:"foreignKey:OriginCode"`
 	Characteristics map[string]interface{} `sql:"type:jsonb"`
 	Docs            []Document             `gorm:"foreignKey:ItemID"`
 	Photos          []Photo                `gorm:"foreignKey:ItemID"`
