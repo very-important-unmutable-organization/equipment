@@ -42,6 +42,8 @@ func InitDb(cfg Config) (*gorm.DB, error) {
 		&domain.Origin{},
 		&domain.State{},
 		&domain.Purpose{},
+		&domain.Photo{},
+		&domain.Document{},
 	); err != nil {
 		panic(err)
 	}
