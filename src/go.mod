@@ -7,6 +7,7 @@ require (
 	github.com/shopspring/decimal v1.2.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/viper v1.9.0
+	gopkg.in/guregu/null.v4 v4.0.0
 	gorm.io/driver/postgres v1.1.1
 	gorm.io/gorm v1.21.15
 )
