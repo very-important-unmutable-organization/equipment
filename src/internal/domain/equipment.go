@@ -16,8 +16,7 @@ type Equipment struct {
 	SerialNumber    string   `gorm:"not null"`
 	TypeCode        int      `gorm:"not null"`
 	Type            ItemType `gorm:"foreignKey:TypeCode"`
-	Status          Status   `gorm:"type:status"`
-	StateCode       int
+	Status          Status   `gorm:"type:status;not null"`
 	StateCode       null.Int
 	State           State           `gorm:"foreignKey:StateCode"`
 	PurposeCode     int             `gorm:"not null"`
