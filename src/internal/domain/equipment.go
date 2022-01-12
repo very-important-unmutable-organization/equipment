@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/shopspring/decimal"
+	"gopkg.in/guregu/null.v4"
 	"gorm.io/gorm"
 )
 
@@ -17,6 +18,7 @@ type Equipment struct {
 	Type            ItemType `gorm:"foreignKey:TypeCode"`
 	Status          Status   `gorm:"type:status"`
 	StateCode       int
+	StateCode       null.Int
 	State           State           `gorm:"foreignKey:StateCode"`
 	PurposeCode     int             `gorm:"not null"`
 	Purpose         Purpose         `gorm:"foreignKey:PurposeCode"`
