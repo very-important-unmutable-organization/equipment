@@ -4,7 +4,7 @@ import (
 	"database/sql/driver"
 )
 
-// TODO: database needs to be prepared manually
+// Database needs to be prepared manually
 
 type Category string
 
@@ -15,7 +15,7 @@ const (
 )
 
 func (p *Category) Scan(value interface{}) error {
-	*p = Category(value.([]byte))
+	*p = Category(value.(string))
 	return nil
 }
 

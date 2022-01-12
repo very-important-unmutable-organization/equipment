@@ -4,8 +4,7 @@ import (
 	"database/sql/driver"
 )
 
-// TODO: database needs to be prepared manually
-// TODO: rubles as default
+// Database needs to be prepared manually
 
 type currency string
 
@@ -17,7 +16,7 @@ const (
 )
 
 func (p *currency) Scan(value interface{}) error {
-	*p = currency(value.([]byte))
+	*p = currency(value.(string))
 	return nil
 }
 

@@ -4,7 +4,7 @@ import (
 	"database/sql/driver"
 )
 
-// TODO: database needs to be prepared manually
+// Database needs to be prepared manually
 
 type Status string
 
@@ -14,7 +14,7 @@ const (
 )
 
 func (p *Status) Scan(value interface{}) error {
-	*p = Status(value.([]byte))
+	*p = Status(value.(string))
 	return nil
 }
 

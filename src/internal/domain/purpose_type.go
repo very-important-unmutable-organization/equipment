@@ -4,7 +4,7 @@ import (
 	"database/sql/driver"
 )
 
-// TODO: database needs to be prepared manually
+// Database needs to be prepared manually
 
 type PurposeType string
 
@@ -15,7 +15,7 @@ const (
 )
 
 func (p *PurposeType) Scan(value interface{}) error {
-	*p = PurposeType(value.([]byte))
+	*p = PurposeType(value.(string))
 	return nil
 }
 

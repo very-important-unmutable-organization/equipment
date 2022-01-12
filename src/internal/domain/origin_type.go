@@ -4,7 +4,7 @@ import (
 	"database/sql/driver"
 )
 
-// TODO: database needs to be prepared manually
+// Database needs to be prepared manually
 
 type OriginType string
 
@@ -14,7 +14,7 @@ const (
 )
 
 func (p *OriginType) Scan(value interface{}) error {
-	*p = OriginType(value.([]byte))
+	*p = OriginType(value.(string))
 	return nil
 }
 
