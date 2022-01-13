@@ -22,8 +22,6 @@ import (
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 
-// TODO: enums don't work, probably 'cause they weren't created
-
 func main() {
 	cfg := config.Init()
 	logrus.Println(cfg)
