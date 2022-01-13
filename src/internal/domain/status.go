@@ -4,8 +4,6 @@ import (
 	"database/sql/driver"
 )
 
-// Database needs to be prepared manually
-
 type Status string
 
 const (
