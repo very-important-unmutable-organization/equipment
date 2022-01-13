@@ -3,10 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/very-important-unmutable-organization/equipment/internal/transport/rest"
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/very-important-unmutable-organization/equipment/internal/transport/rest"
 
 	"gorm.io/gorm"
 

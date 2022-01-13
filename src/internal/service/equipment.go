@@ -2,11 +2,13 @@ package service
 
 import (
 	"encoding/json"
-	"github.com/sirupsen/logrus"
-	"github.com/very-important-unmutable-organization/equipment/internal/domain"
-	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 	"io"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
+
+	"github.com/very-important-unmutable-organization/equipment/internal/domain"
+	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 )
 
 type Equipment struct {

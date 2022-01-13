@@ -1,8 +1,9 @@
 package repository
 
 import (
-	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 	"gorm.io/gorm"
+
+	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 
 type Equipment struct {

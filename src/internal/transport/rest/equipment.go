@@ -2,9 +2,10 @@ package rest
 
 import (
 	"github.com/go-chi/chi"
+	"gorm.io/gorm"
+
 	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 	"github.com/very-important-unmutable-organization/equipment/internal/service"
-	"gorm.io/gorm"
 )
 
 type Equipment struct {
