@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/very-important-unmutable-organization/equipment/internal/transport/rest"
 	"io"
 	"net/http"
 	"os"
@@ -39,7 +40,7 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	registerEquipmentEndpoints(r, db)
+	rest.Equipment{}.RegisterEndpoints(r, db)
 	registerTypeEndpoints(r, db)
 	registerStateEndpoints(r, db)
 	registerPurposeEndpoints(r, db)
@@ -194,42 +195,6 @@ func registerTypeEndpoints(r *chi.Mux, db *gorm.DB) {
 		if res.Error != nil {
 			http.Error(w, http.StatusText(500), 500)
 			logrus.Debugf("Couldn't create %#v: %s", item, err)
-			return
-		}
-	})
-}
-
-func registerEquipmentEndpoints(r *chi.Mux, db *gorm.DB) {
-	r.Get("/equipment", func(w http.ResponseWriter, r *http.Request) {
-		equipments := new([]domain.Equipment)
-		res := db.Find(equipments)
-		if res.Error != nil {
-			http.Error(w, http.StatusText(500), 500)
-			return
-		}
-		enc := json.NewEncoder(w)
-		if err := enc.Encode(equipments); err != nil {
-			http.Error(w, http.StatusText(500), 500)
-			return
-		}
-	})
-
-	r.Post("/equipment", func(w http.ResponseWriter, r *http.Request) {
-		data, err := io.ReadAll(r.Body)
-		if err != nil {
-			http.Error(w, http.StatusText(500), 500)
-			return
-		}
-		eqt := new(domain.Equipment)
-		if err = json.Unmarshal(data, eqt); err != nil {
-			http.Error(w, http.StatusText(422), 422)
-			logrus.Debugf("Couldn't unmarshal: %s", err)
-			return
-		}
-		res := db.Create(eqt)
-		if res.Error != nil {
-			http.Error(w, http.StatusText(500), 500)
-			logrus.Debugf("Couldn't create %#v: %s", eqt, err)
 			return
 		}
 	})
