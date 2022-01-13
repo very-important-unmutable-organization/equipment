@@ -44,6 +44,8 @@ func main() {
 	registerStateEndpoints(r, db)
 	registerPurposeEndpoints(r, db)
 	registerOriginEndpoints(r, db)
+	registerDocumentEndpoints(r, db)
+	registerPhotoEndpoints(r, db)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -219,6 +221,78 @@ func registerEquipmentEndpoints(r *chi.Mux, db *gorm.DB) {
 			return
 		}
 		eqt := new(domain.Equipment)
+		if err = json.Unmarshal(data, eqt); err != nil {
+			http.Error(w, http.StatusText(422), 422)
+			logrus.Debugf("Couldn't unmarshal: %s", err)
+			return
+		}
+		res := db.Create(eqt)
+		if res.Error != nil {
+			http.Error(w, http.StatusText(500), 500)
+			logrus.Debugf("Couldn't create %#v: %s", eqt, err)
+			return
+		}
+	})
+}
+
+func registerPhotoEndpoints(r *chi.Mux, db *gorm.DB) {
+	r.Get("/photo", func(w http.ResponseWriter, r *http.Request) {
+		equipments := new([]domain.Photo)
+		res := db.Find(equipments)
+		if res.Error != nil {
+			http.Error(w, http.StatusText(500), 500)
+			return
+		}
+		enc := json.NewEncoder(w)
+		if err := enc.Encode(equipments); err != nil {
+			http.Error(w, http.StatusText(500), 500)
+			return
+		}
+	})
+
+	r.Post("/photo", func(w http.ResponseWriter, r *http.Request) {
+		data, err := io.ReadAll(r.Body)
+		if err != nil {
+			http.Error(w, http.StatusText(500), 500)
+			return
+		}
+		eqt := new(domain.Photo)
+		if err = json.Unmarshal(data, eqt); err != nil {
+			http.Error(w, http.StatusText(422), 422)
+			logrus.Debugf("Couldn't unmarshal: %s", err)
+			return
+		}
+		res := db.Create(eqt)
+		if res.Error != nil {
+			http.Error(w, http.StatusText(500), 500)
+			logrus.Debugf("Couldn't create %#v: %s", eqt, err)
+			return
+		}
+	})
+}
+
+func registerDocumentEndpoints(r *chi.Mux, db *gorm.DB) {
+	r.Get("/document", func(w http.ResponseWriter, r *http.Request) {
+		equipments := new([]domain.Document)
+		res := db.Find(equipments)
+		if res.Error != nil {
+			http.Error(w, http.StatusText(500), 500)
+			return
+		}
+		enc := json.NewEncoder(w)
+		if err := enc.Encode(equipments); err != nil {
+			http.Error(w, http.StatusText(500), 500)
+			return
+		}
+	})
+
+	r.Post("/document", func(w http.ResponseWriter, r *http.Request) {
+		data, err := io.ReadAll(r.Body)
+		if err != nil {
+			http.Error(w, http.StatusText(500), 500)
+			return
+		}
+		eqt := new(domain.Document)
 		if err = json.Unmarshal(data, eqt); err != nil {
 			http.Error(w, http.StatusText(422), 422)
 			logrus.Debugf("Couldn't unmarshal: %s", err)
