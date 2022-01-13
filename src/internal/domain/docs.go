@@ -4,6 +4,6 @@ import "gorm.io/gorm"
 
 type Document struct {
 	gorm.Model
-	ItemID   uint
+	ItemID   uint `json:"item_id"`
 	Location string
 }
