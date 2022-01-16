@@ -6,17 +6,18 @@ import (
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 
-type Equipment struct {
-	db *gorm.DB
+type EquipmentRepo struct {
+	equipment domain.Equipment
+	db        *gorm.DB
 }
 
-func NewEquipment(db *gorm.DB) Equipment {
-	return Equipment{
+func NewEquipmentRepo(db *gorm.DB) *EquipmentRepo {
+	return &EquipmentRepo{
 		db: db,
 	}
 }
 
-func (e *Equipment) GetAll() (*[]domain.Equipment, error) {
+func (e *EquipmentRepo) GetAll() (*[]domain.Equipment, error) {
 	equipments := new([]domain.Equipment)
 	res := e.db.Find(equipments)
 	if res.Error != nil {
@@ -25,7 +26,7 @@ func (e *Equipment) GetAll() (*[]domain.Equipment, error) {
 	return equipments, nil
 }
 
-func (e *Equipment) Post(equipment *domain.Equipment) error {
+func (e *EquipmentRepo) CreateEquipment(equipment *domain.Equipment) (err error) {
 	res := e.db.Create(equipment)
 	return res.Error
 }

@@ -2,6 +2,11 @@ FROM golang:1.17-rc-buster as builder
 
 WORKDIR /go/src/app
 
+RUN wget -O swag_linux_amd64.tar.gz https://github.com/swaggo/swag/releases/download/v1.7.1/swag_linux_amd64.tar.gz \
+ && tar -xzf swag_linux_amd64.tar.gz \
+ && mv swag_linux_amd64/swag  /usr/local/bin \
+ && rm swag_linux_amd64.tar.gz
+
 COPY go.mod go.sum ./
 
 RUN go mod download && go mod verify

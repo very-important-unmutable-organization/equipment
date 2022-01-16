@@ -1,47 +1,51 @@
 package service
 
 import (
-	"encoding/json"
-	"io"
-	"net/http"
-
-	"github.com/sirupsen/logrus"
-
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 )
 
-type Equipment struct {
-	Repository repository.Equipment
+type EquipmentService struct {
+	equipment repository.EquipmentRepo
 }
 
-func (e *Equipment) GetAll(w http.ResponseWriter, r *http.Request) {
-	equipments, err := e.Repository.GetAll()
-	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
-		return
-	}
-	enc := json.NewEncoder(w)
-	if err := enc.Encode(equipments); err != nil {
-		http.Error(w, http.StatusText(500), 500)
-		return
-	}
+func NewEquipmentService(eq repository.EquipmentRepo) *EquipmentService {
+	return &EquipmentService{equipment: eq}
 }
 
-func (e *Equipment) Post(w http.ResponseWriter, r *http.Request) {
-	data, err := io.ReadAll(r.Body)
-	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
-		return
+func (e *EquipmentService) GetAll() (equipments *[]domain.Equipment, err error) {
+	equipments, err = e.equipment.GetAll()
+	return
+	//if err != nil {
+	//	http.Error(w, http.StatusText(500), 500)
+	//	return
+	//}
+	//enc := json.NewEncoder(w)
+	//if err := enc.Encode(equipments); err != nil {
+	//	http.Error(w, http.StatusText(500), 500)
+	//	return
+	//}
+}
+
+func (e *EquipmentService) CreateEquipment(in *domain.Equipment) (equipment *domain.Equipment, err error) {
+	if err := e.equipment.CreateEquipment(in); err != nil {
+		return nil, err
 	}
-	eqt := new(domain.Equipment)
-	if err = json.Unmarshal(data, eqt); err != nil {
-		http.Error(w, http.StatusText(422), 422)
-		logrus.Debugf("Couldn't unmarshal: %s", err)
-		return
-	}
-	if err = e.Repository.Post(eqt); err != nil {
-		http.Error(w, http.StatusText(500), 500)
-		logrus.Debugf("Couldn't create %#v: %s", eqt, err)
-	}
+	return in, nil
+
+	//data, err := io.ReadAll(r.Body)
+	//if err != nil {
+	//	http.Error(w, http.StatusText(500), 500)
+	//	return
+	//}
+	//eqt := new(domain.Equipment)
+	//if err = json.Unmarshal(data, eqt); err != nil {
+	//	http.Error(w, http.StatusText(422), 422)
+	//	logrus.Debugf("Couldn't unmarshal: %s", err)
+	//	return
+	//}
+	//if err = e.equipment.createEquipment(eqt); err != nil {
+	//	http.Error(w, http.StatusText(500), 500)
+	//	logrus.Debugf("Couldn't create %#v: %s", eqt, err)
+	//}
 }

@@ -18,7 +18,7 @@ type Config struct {
 }
 
 type Repositories struct {
-	Equipment domain.Equipment
+	EquipmentRepo *EquipmentRepo
 }
 
 func InitDb(cfg Config) (*gorm.DB, error) {
@@ -51,6 +51,6 @@ func InitDb(cfg Config) (*gorm.DB, error) {
 	return db, nil
 }
 
-func NewRepositories(cfg Config) (*Repositories, error) {
-	return &Repositories{}, nil
+func NewRepositories(db *gorm.DB) (*Repositories, error) {
+	return &Repositories{EquipmentRepo: NewEquipmentRepo(db)}, nil
 }
