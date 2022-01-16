@@ -38,7 +38,7 @@ func (h *EquipmentHandler) getEquipmentList(w http.ResponseWriter, r *http.Reque
 }
 
 type createEquipmentResponse struct {
-	Id uint `json:"Id"`
+	Id uint `json:"id"`
 }
 
 // @Summary  Create equipment
