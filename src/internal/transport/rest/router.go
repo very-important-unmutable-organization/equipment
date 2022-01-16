@@ -1,9 +1,10 @@
 package rest
 
 import (
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	httpSwagger "github.com/swaggo/http-swagger"
+	_ "github.com/very-important-unmutable-organization/equipment/docs"
 	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 	"github.com/very-important-unmutable-organization/equipment/internal/service"
 	"github.com/very-important-unmutable-organization/equipment/pkg/binder"
@@ -38,7 +39,10 @@ func (r *Router) Init() *chi.Mux {
 	router.Use(mw.Recoverer)
 
 	router.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("pong"))
+		_, err := w.Write([]byte("pong"))
+		if err != nil {
+			return
+		}
 	})
 
 	router.Get("/swagger/*", httpSwagger.Handler())

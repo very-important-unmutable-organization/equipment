@@ -1,0 +1,74 @@
+basePath: /api/v1/
+definitions:
+  responses.ErrorResponse:
+    properties:
+      error:
+        $ref: '#/definitions/responses.errorDetail'
+    type: object
+  responses.errorDetail:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    type: object
+  rest.createEquipmentResponse:
+    properties:
+      Id:
+        type: integer
+    type: object
+info:
+  contact: {}
+  description: mem
+  title: Equipment API
+  version: "1.0"
+paths:
+  /equipment:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Get all equipment
+      tags:
+      - equipment
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createEquipmentResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Create equipment
+      tags:
+      - equipment
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: X-API-KEY
+    type: apiKey
+  UserTokenAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

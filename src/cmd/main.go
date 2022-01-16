@@ -17,6 +17,21 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// @title Equipment API
+// @version 1.0
+// @description mem
+
+// @BasePath /api/v1/
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name X-API-KEY
+
+// @securityDefinitions.apikey UserTokenAuth
+// @in header
+// @name Authorization
+
+// Run initializes whole application.
 func main() {
 	cfg := config.Init()
 
@@ -38,18 +53,6 @@ func main() {
 
 	r := rest.NewRouter(repos, services)
 
-	//cfg := config.Init()
-	//logrus.Println(cfg)
-	//
-	//
-	//
-	//r := chi.NewRouter()
-	//
-	//r.Use(middleware.RequestID)
-	//r.Use(middleware.RealIP)
-	//r.Use(middleware.Logger)
-	//r.Use(middleware.Recoverer)
-	//
 	//rest.Equipment{}.RegisterEndpoints(r, db)
 	//registerTypeEndpoints(r, db)
 	//registerStateEndpoints(r, db)
