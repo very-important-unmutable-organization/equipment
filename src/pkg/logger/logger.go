@@ -116,7 +116,7 @@ func InitLogger(cfg Config) (syncFn func()) {
 	)
 
 	return func() {
-		notSugaredLogger.Sync()
+		_ = notSugaredLogger.Sync()
 	}
 }
 

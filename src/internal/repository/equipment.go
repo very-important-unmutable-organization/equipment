@@ -7,7 +7,7 @@ import (
 )
 
 type EquipmentRepo struct {
-	equipment domain.Equipment
+	equipment domain.Equipment //nolint:structcheck,unused
 	db        *gorm.DB
 }
 

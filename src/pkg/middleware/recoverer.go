@@ -22,7 +22,7 @@ func Recoverer(next http.Handler) http.Handler {
 					"stack", string(debug.Stack()),
 				)
 
-				render.Render(w, r, responses.ErrorInternal())
+				_ = render.Render(w, r, responses.ErrorInternal())
 			}
 		}()
 
