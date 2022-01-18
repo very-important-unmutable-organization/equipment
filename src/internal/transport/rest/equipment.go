@@ -2,14 +2,16 @@ package rest
 
 import (
 	"encoding/json"
+	"io"
+	"net/http"
+
 	"github.com/go-chi/render"
 	"github.com/sirupsen/logrus"
+
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 	"github.com/very-important-unmutable-organization/equipment/internal/service"
 	"github.com/very-important-unmutable-organization/equipment/pkg/binder"
 	resp "github.com/very-important-unmutable-organization/equipment/pkg/responses"
-	"io"
-	"net/http"
 )
 
 type EquipmentHandler struct {

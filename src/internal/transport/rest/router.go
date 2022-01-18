@@ -1,16 +1,18 @@
 package rest
 
 import (
+	"net/http"
+	_ "time"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	httpSwagger "github.com/swaggo/http-swagger"
+
 	_ "github.com/very-important-unmutable-organization/equipment/docs"
 	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 	"github.com/very-important-unmutable-organization/equipment/internal/service"
 	"github.com/very-important-unmutable-organization/equipment/pkg/binder"
 	mw "github.com/very-important-unmutable-organization/equipment/pkg/middleware"
-	"net/http"
-	_ "time"
 )
 
 type RouterConfig struct {

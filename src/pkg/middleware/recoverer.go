@@ -2,10 +2,11 @@ package middleware
 
 import (
 	"fmt"
-	"github.com/very-important-unmutable-organization/equipment/pkg/logger"
-	"github.com/very-important-unmutable-organization/equipment/pkg/responses"
 	"net/http"
 	"runtime/debug"
+
+	"github.com/very-important-unmutable-organization/equipment/pkg/logger"
+	"github.com/very-important-unmutable-organization/equipment/pkg/responses"
 
 	"github.com/go-chi/render"
 )

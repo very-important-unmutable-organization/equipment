@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"os"
+
 	"github.com/very-important-unmutable-organization/equipment/internal/service"
 	"github.com/very-important-unmutable-organization/equipment/internal/transport/rest"
 	"github.com/very-important-unmutable-organization/equipment/pkg/logger"
-	"net/http"
-	"os"
 
 	"github.com/very-important-unmutable-organization/equipment/config"
 	"github.com/very-important-unmutable-organization/equipment/internal/repository"
