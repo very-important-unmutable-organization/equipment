@@ -17,6 +17,36 @@ definitions:
       Id:
         type: integer
     type: object
+  rest.createItemTypeResponse:
+    properties:
+      Id:
+        type: integer
+    type: object
+  rest.createStateResponse:
+    properties:
+      Id:
+        type: integer
+    type: object
+  rest.createPurposeResponse:
+    properties:
+      Id:
+        type: integer
+    type: object
+  rest.createOriginResponse:
+    properties:
+      Id:
+        type: integer
+    type: object
+  rest.createDocumentResponse:
+    properties:
+      Id:
+        type: integer
+    type: object
+  rest.createPhotoResponse:
+    properties:
+      Id:
+        type: integer
+    type: object
 info:
   contact: {}
   description: mem
@@ -62,6 +92,240 @@ paths:
       summary: Create equipment
       tags:
       - equipment
+  /type:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Get all item types
+      tags:
+      - type
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createItemTypeResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Create item type
+      tags:
+      - type
+  /state:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Get all states
+      tags:
+      - state
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createStateResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Create state
+      tags:
+      - state
+  /purpose:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Get all purposes
+      tags:
+      - purpose
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createPurposeResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Create purpose
+      tags:
+      - purpose
+  /origin:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Get all origins
+      tags:
+      - origin
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createOriginResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Create origin
+      tags:
+      - origin
+  /document:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Get all documents
+      tags:
+      - document
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createDocumentResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Create document
+      tags:
+      - document
+  /photo:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Get all photos
+      tags:
+      - photo
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createPhotoResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Create photo
+      tags:
+      - photo
 securityDefinitions:
   ApiKeyAuth:
     in: header
