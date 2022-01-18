@@ -58,18 +58,18 @@ func (h *EquipmentHandler) createEquipment(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	eqt := new(domain.Equipment)
+	equipment := new(domain.Equipment)
 
-	if err = json.Unmarshal(data, eqt); err != nil {
+	if err = json.Unmarshal(data, equipment); err != nil {
 		http.Error(w, http.StatusText(422), 422)
 		logrus.Debugf("Couldn't unmarshal: %s", err)
 		return
 	}
 
-	equipment, err := h.equipmentSrv.CreateEquipment(eqt)
+	equipment, err = h.equipmentSrv.CreateEquipment(equipment)
 	if err != nil {
 		http.Error(w, http.StatusText(500), 500)
-		logrus.Debugf("Couldn't create %#v: %s", eqt, err)
+		logrus.Debugf("Couldn't create %#v: %s", equipment, err)
 	}
 
 	render.Respond(w, r, createEquipmentResponse{equipment.ID})

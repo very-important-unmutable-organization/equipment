@@ -51,6 +51,12 @@ func (r *Router) Init() *chi.Mux {
 
 	router.Route("/api/v1", func(router chi.Router) {
 		router.Mount("/equipment", r.registerEquipmentRouter())
+		router.Mount("/type", r.registerItemTypeRouter())
+		router.Mount("/state", r.registerStateRouter())
+		router.Mount("/purpose", r.registerPurposeRouter())
+		router.Mount("/origin", r.registerOriginRouter())
+		router.Mount("/document", r.registerDocumentRouter())
+		router.Mount("/photo", r.registerPhotoRouter())
 	})
 
 	return router
@@ -62,6 +68,66 @@ func (r *Router) registerEquipmentRouter() chi.Router {
 
 	router.Get("/", h.getEquipmentList)
 	router.Post("/", h.createEquipment)
+
+	return router
+}
+
+func (r *Router) registerItemTypeRouter() chi.Router {
+	h := NewItemTypeHandler(r.binder, *r.services.ItemTypeService)
+	router := chi.NewRouter()
+
+	router.Get("/", h.getItemTypeList)
+	router.Post("/", h.createItemType)
+
+	return router
+}
+
+func (r *Router) registerStateRouter() chi.Router {
+	h := NewStateHandler(r.binder, *r.services.StateService)
+	router := chi.NewRouter()
+
+	router.Get("/", h.getStateList)
+	router.Post("/", h.createState)
+
+	return router
+}
+
+func (r *Router) registerPurposeRouter() chi.Router {
+	h := NewPurposeHandler(r.binder, *r.services.PurposeService)
+	router := chi.NewRouter()
+
+	router.Get("/", h.getPurposeList)
+	router.Post("/", h.createPurpose)
+
+	return router
+}
+
+func (r *Router) registerOriginRouter() chi.Router {
+	h := NewOriginHandler(r.binder, *r.services.OriginService)
+	router := chi.NewRouter()
+
+	router.Get("/", h.getOriginList)
+	router.Post("/", h.createOrigin)
+
+	return router
+}
+
+func (r *Router) registerDocumentRouter() chi.Router {
+	h := NewDocumentHandler(r.binder, *r.services.DocumentService)
+	router := chi.NewRouter()
+
+	router.Get("/", h.getDocumentList)
+	router.Post("/", h.createDocument)
+
+	return router
+}
+
+func (r *Router) registerPhotoRouter() chi.Router {
+	h := NewPhotoHandler(r.binder, *r.services.PhotoService)
+	router := chi.NewRouter()
+
+	router.Get("/", h.getPhotoList)
+	router.Post("/", h.createPhoto)
 
 	return router
 }
