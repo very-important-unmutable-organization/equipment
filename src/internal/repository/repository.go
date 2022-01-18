@@ -60,7 +60,7 @@ func InitDb(cfg Config) (*gorm.DB, error) {
 func NewRepositories(db *gorm.DB) (*Repositories, error) {
 	return &Repositories{
 		EquipmentRepo: NewEquipmentRepo(db),
-		ItemTypeRepo:  NewTypeRepo(db),
+		ItemTypeRepo:  NewItemTypeRepo(db),
 		StateRepo:     NewStateRepo(db),
 		PurposeRepo:   NewPurposeRepo(db),
 		OriginRepo:    NewOriginRepo(db),

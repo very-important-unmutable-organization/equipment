@@ -11,7 +11,7 @@ type ItemTypeRepo struct {
 	db       *gorm.DB
 }
 
-func NewTypeRepo(db *gorm.DB) *ItemTypeRepo {
+func NewItemTypeRepo(db *gorm.DB) *ItemTypeRepo {
 	return &ItemTypeRepo{
 		db: db,
 	}
