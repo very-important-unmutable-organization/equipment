@@ -6,6 +6,9 @@ import (
 	"net/http"
 	"os"
 
+	_ "github.com/GoAdminGroup/go-admin/adapter/chi"
+	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/postgres"
+	_ "github.com/GoAdminGroup/go-admin/plugins/admin/modules"
 	"github.com/very-important-unmutable-organization/equipment/internal/service"
 	"github.com/very-important-unmutable-organization/equipment/internal/transport/rest"
 	"github.com/very-important-unmutable-organization/equipment/pkg/logger"

@@ -64,7 +64,7 @@ func GetEquipmentTable(ctx *context.Context) table.Table {
 		FieldNowWhenInsert()
 	formList.AddField("Category", "category", db.Enum, form.SelectSingle).
 		FieldMust().
-		FieldPlaceholder("penis").
+		FieldPlaceholder("kek").
 		FieldOptions(types.FieldOptions{
 			{Text: "Furniture", Value: "furniture"},
 			{Text: "Office Equipment", Value: "office_equipment"},

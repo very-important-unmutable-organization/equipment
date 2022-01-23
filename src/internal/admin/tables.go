@@ -6,16 +6,18 @@ import (
 	adminConfig "github.com/GoAdminGroup/go-admin/modules/config"
 	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/postgres"
 	"github.com/GoAdminGroup/go-admin/modules/language"
+	_ "github.com/GoAdminGroup/go-admin/plugins/admin/modules"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
 	"github.com/GoAdminGroup/themes/adminlte"
-	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi"
 	"github.com/very-important-unmutable-organization/equipment/config"
 )
 
 func Init(cfg *config.DatabaseConfig, router *chi.Mux) {
 	eng := engine.Default()
 	var Generators = map[string]table.Generator{
-		"equipment": GetEquipmentTable,
+		"equipment":  GetEquipmentTable,
+		"item_types": GetItemTypeTable,
 	}
 
 	adminConf := adminConfig.Config{

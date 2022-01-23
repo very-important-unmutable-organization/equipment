@@ -1,18 +1,15 @@
 package rest
 
 import (
-	"net/http"
 	_ "time"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
-	httpSwagger "github.com/swaggo/http-swagger"
-
+	_ "github.com/GoAdminGroup/go-admin/adapter/chi"
+	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/postgres"
+	"github.com/go-chi/chi"
 	_ "github.com/very-important-unmutable-organization/equipment/docs"
 	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 	"github.com/very-important-unmutable-organization/equipment/internal/service"
 	"github.com/very-important-unmutable-organization/equipment/pkg/binder"
-	mw "github.com/very-important-unmutable-organization/equipment/pkg/middleware"
 )
 
 type RouterConfig struct {
@@ -36,28 +33,28 @@ func NewRouter(repos *repository.Repositories, services *service.Services) *Rout
 
 func (r *Router) Init() *chi.Mux {
 	router := chi.NewRouter()
-	router.Use(middleware.RequestID)
-	router.Use(middleware.Logger)
-	router.Use(mw.Recoverer)
-
-	router.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
-		_, err := w.Write([]byte("pong"))
-		if err != nil {
-			return
-		}
-	})
-
-	router.Get("/swagger/*", httpSwagger.Handler())
-
-	router.Route("/api/v1", func(router chi.Router) {
-		router.Mount("/equipment", r.registerEquipmentRouter())
-		router.Mount("/type", r.registerItemTypeRouter())
-		router.Mount("/state", r.registerStateRouter())
-		router.Mount("/purpose", r.registerPurposeRouter())
-		router.Mount("/origin", r.registerOriginRouter())
-		router.Mount("/document", r.registerDocumentRouter())
-		router.Mount("/photo", r.registerPhotoRouter())
-	})
+	//router.Use(middleware.RequestID)
+	//router.Use(middleware.Logger)
+	//router.Use(mw.Recoverer)
+	//
+	//router.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
+	//	_, err := w.Write([]byte("pong"))
+	//	if err != nil {
+	//		return
+	//	}
+	//})
+	//
+	//router.Get("/swagger/*", httpSwagger.Handler())
+	//
+	//router.Route("/api/v1", func(router chi.Router) {
+	//	router.Mount("/equipment", r.registerEquipmentRouter())
+	//	router.Mount("/type", r.registerItemTypeRouter())
+	//	router.Mount("/state", r.registerStateRouter())
+	//	router.Mount("/purpose", r.registerPurposeRouter())
+	//	router.Mount("/origin", r.registerOriginRouter())
+	//	router.Mount("/document", r.registerDocumentRouter())
+	//	router.Mount("/photo", r.registerPhotoRouter())
+	//})
 
 	return router
 }
