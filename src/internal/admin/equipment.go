@@ -1,4 +1,4 @@
-package tables
+package admin
 
 import (
 	"github.com/GoAdminGroup/go-admin/context"
@@ -69,7 +69,7 @@ func GetEquipmentTable(ctx *context.Context) table.Table {
 			{Text: "Furniture", Value: "furniture"},
 			{Text: "Office Equipment", Value: "office_equipment"},
 			{Text: "Personal Equipment", Value: "personal_equipment"},
-	})
+		})
 	formList.AddField("Name", "name", db.Varchar, form.Text).
 		FieldMust()
 	formList.AddField("Description", "description", db.Text, form.RichText)
@@ -81,7 +81,7 @@ func GetEquipmentTable(ctx *context.Context) table.Table {
 		FieldOptions(types.FieldOptions{
 			{Text: "Free", Value: "free"},
 			{Text: "Taken", Value: "taken"},
-	})
+		})
 	formList.AddField("State code", "state_code", db.Int8, form.Number)
 	formList.AddField("Purpose code", "purpose_code", db.Int8, form.Number).
 		FieldMust()
@@ -95,7 +95,7 @@ func GetEquipmentTable(ctx *context.Context) table.Table {
 			{Text: "$", Value: "usd"},
 			{Text: "€", Value: "euro"},
 			{Text: "£", Value: "pound"},
-	})
+		})
 	formList.AddField("Origin code", "origin_code", db.Int8, form.Number).
 		FieldMust()
 	formList.AddField("Characteristics", "characteristics", db.JSON, form.Text)

@@ -16,15 +16,15 @@ services:
       - db
 
   db:
-    container_name: equipment__db
     image: ${IMAGE_DB}
+    container_name: equipment__db
     build: ./postgres
     env_file:
       - .env
     volumes: [ "db_volume:/var/lib/postgresql/data/" ]
     restart: always
     ports:
-      - 5432:5432
+      - "5432:5432"
 
 volumes:
   db_volume:
