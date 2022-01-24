@@ -19,6 +19,7 @@ func Init(cfg *config.DatabaseConfig, router *chi.Mux) {
 	var Generators = map[string]table.Generator{
 		"equipment":  GetEquipmentTable,
 		"item_types": GetItemTypeTable,
+		"purposes":   GetPurposeTable,
 	}
 
 	adminConf := adminConfig.Config{
