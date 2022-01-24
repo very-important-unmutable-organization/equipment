@@ -26,7 +26,10 @@ func NewEquipmentHandler(binder binder.InputBinder, equipmentSrv service.Equipme
 	}
 }
 
+////@Success 200 {object} responses.ItemsResponse{items=[]domain.Equipment}
+
 // @Summary  Get all equipment
+// @Security ApiKeyAuth
 // @Tags equipment
 // @Accept  json
 // @Produce  json
@@ -44,6 +47,7 @@ type createEquipmentResponse struct {
 }
 
 // @Summary  Create equipment
+// @Security ApiKeyAuth
 // @Tags equipment
 // @Accept  json
 // @Produce  json

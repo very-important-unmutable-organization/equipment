@@ -10,6 +10,7 @@ import (
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
 	"github.com/GoAdminGroup/themes/adminlte"
 	"github.com/go-chi/chi"
+
 	"github.com/very-important-unmutable-organization/equipment/config"
 )
 

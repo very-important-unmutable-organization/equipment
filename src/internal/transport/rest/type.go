@@ -27,6 +27,7 @@ func NewItemTypeHandler(binder binder.InputBinder, itemTypeSrv service.ItemTypeS
 }
 
 // @Summary  Get all item types
+// @Security ApiKeyAuth
 // @Tags itemType
 // @Accept  json
 // @Produce  json
@@ -43,10 +44,19 @@ type createItemTypeResponse struct {
 	Id uint `json:"id"`
 }
 
+type createItemRequest struct {
+	Category string `gorm:"type:varchar;not null"`
+	Name     string `gorm:"type:varchar;not null"`
+
+	Id uint `json:"id"`
+}
+
 // @Summary  Create item type
+// @Security ApiKeyAuth
 // @Tags itemType
 // @Accept  json
 // @Produce  json
+// @Param input body createItemRequest true "User registration data"
 // @Success 200 {object} createItemTypeResponse
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 422 {object} responses.ErrorResponse

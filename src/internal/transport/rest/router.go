@@ -1,15 +1,20 @@
 package rest
 
 import (
+	"github.com/go-chi/chi/middleware"
+	httpSwagger "github.com/swaggo/http-swagger"
+	"net/http"
 	_ "time"
 
 	_ "github.com/GoAdminGroup/go-admin/adapter/chi"
 	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/postgres"
 	"github.com/go-chi/chi"
+
 	_ "github.com/very-important-unmutable-organization/equipment/docs"
 	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 	"github.com/very-important-unmutable-organization/equipment/internal/service"
 	"github.com/very-important-unmutable-organization/equipment/pkg/binder"
+	mw "github.com/very-important-unmutable-organization/equipment/pkg/middleware"
 )
 
 type RouterConfig struct {
@@ -21,40 +26,43 @@ type Router struct {
 	repos    *repository.Repositories
 	services *service.Services
 	binder   binder.InputBinder
+	config   RouterConfig
 }
 
-func NewRouter(repos *repository.Repositories, services *service.Services) *Router {
+func NewRouter(repos *repository.Repositories, services *service.Services, cfg RouterConfig) *Router {
 	return &Router{
 		repos:    repos,
 		services: services,
 		binder:   *binder.NewInputBinder(),
+		config:   cfg,
 	}
 }
 
 func (r *Router) Init() *chi.Mux {
 	router := chi.NewRouter()
-	//router.Use(middleware.RequestID)
-	//router.Use(middleware.Logger)
-	//router.Use(mw.Recoverer)
-	//
-	//router.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
-	//	_, err := w.Write([]byte("pong"))
-	//	if err != nil {
-	//		return
-	//	}
-	//})
-	//
-	//router.Get("/swagger/*", httpSwagger.Handler())
-	//
-	//router.Route("/api/v1", func(router chi.Router) {
-	//	router.Mount("/equipment", r.registerEquipmentRouter())
-	//	router.Mount("/type", r.registerItemTypeRouter())
-	//	router.Mount("/state", r.registerStateRouter())
-	//	router.Mount("/purpose", r.registerPurposeRouter())
-	//	router.Mount("/origin", r.registerOriginRouter())
-	//	router.Mount("/document", r.registerDocumentRouter())
-	//	router.Mount("/photo", r.registerPhotoRouter())
-	//})
+	router.Use(middleware.RequestID)
+	router.Use(middleware.Logger)
+	router.Use(mw.Recoverer)
+
+	router.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
+		_, err := w.Write([]byte("pong"))
+		if err != nil {
+			return
+		}
+	})
+
+	router.Get("/swagger/*", httpSwagger.Handler())
+
+	router.Route("/api/v1", func(router chi.Router) {
+		router.Use(mw.ApiKeyAuthentication(r.config.ApiToken, r.config.ApiTokenHeader))
+		router.Mount("/equipment", r.registerEquipmentRouter())
+		router.Mount("/type", r.registerItemTypeRouter())
+		router.Mount("/state", r.registerStateRouter())
+		router.Mount("/purpose", r.registerPurposeRouter())
+		router.Mount("/origin", r.registerOriginRouter())
+		router.Mount("/document", r.registerDocumentRouter())
+		router.Mount("/photo", r.registerPhotoRouter())
+	})
 
 	return router
 }

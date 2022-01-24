@@ -27,6 +27,7 @@ func NewStateHandler(binder binder.InputBinder, stateSrv service.StateService) *
 }
 
 // @Summary  Get all states
+// @Security ApiKeyAuth
 // @Tags state
 // @Accept  json
 // @Produce  json
@@ -44,6 +45,7 @@ type createStateResponse struct {
 }
 
 // @Summary  Create state
+// @Security ApiKeyAuth
 // @Tags state
 // @Accept  json
 // @Produce  json

@@ -15,6 +15,9 @@ up:
 down:
 	docker-compose down
 
+psql:
+	docker exec -it equipment__db psql -U postgres
+
 TOOLS_MOD_DIR = ./src/internal/tools
 
 .PHONY: install-tools lint goimports fmt

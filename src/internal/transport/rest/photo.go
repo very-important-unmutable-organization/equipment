@@ -27,6 +27,7 @@ func NewPhotoHandler(binder binder.InputBinder, photoSrv service.PhotoService) *
 }
 
 // @Summary  Get all photos
+// @Security ApiKeyAuth
 // @Tags photo
 // @Accept  json
 // @Produce  json
@@ -44,6 +45,7 @@ type createPhotoResponse struct {
 }
 
 // @Summary  Create photo
+// @Security ApiKeyAuth
 // @Tags photo
 // @Accept  json
 // @Produce  json

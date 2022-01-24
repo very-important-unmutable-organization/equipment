@@ -75,3 +75,13 @@ func ErrorInternal() render.Renderer {
 		},
 	}
 }
+
+func ErrorUnauthorized() render.Renderer {
+	return &ErrorResponse{
+		HTTPStatusCode: http.StatusUnauthorized,
+		Error: errorDetail{
+			Code:    "unauthorized",
+			Message: http.StatusText(http.StatusUnauthorized),
+		},
+	}
+}

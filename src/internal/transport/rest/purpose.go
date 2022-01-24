@@ -27,6 +27,7 @@ func NewPurposeHandler(binder binder.InputBinder, purposeSrv service.PurposeServ
 }
 
 // @Summary  Get all purposes
+// @Security ApiKeyAuth
 // @Tags purpose
 // @Accept  json
 // @Produce  json
@@ -44,6 +45,7 @@ type createPurposeResponse struct {
 }
 
 // @Summary  Create purpose
+// @Security ApiKeyAuth
 // @Tags purpose
 // @Accept  json
 // @Produce  json

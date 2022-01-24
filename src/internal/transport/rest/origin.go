@@ -27,6 +27,7 @@ func NewOriginHandler(binder binder.InputBinder, originSrv service.OriginService
 }
 
 // @Summary  Get all origins
+// @Security ApiKeyAuth
 // @Tags origin
 // @Accept  json
 // @Produce  json
@@ -44,6 +45,7 @@ type createOriginResponse struct {
 }
 
 // @Summary  Create origin
+// @Security ApiKeyAuth
 // @Tags origin
 // @Accept  json
 // @Produce  json

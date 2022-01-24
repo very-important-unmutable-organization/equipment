@@ -2,13 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/very-important-unmutable-organization/equipment/internal/admin"
 	"net/http"
 	"os"
+
+	"github.com/very-important-unmutable-organization/equipment/internal/admin"
 
 	_ "github.com/GoAdminGroup/go-admin/adapter/chi"
 	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/postgres"
 	_ "github.com/GoAdminGroup/go-admin/plugins/admin/modules"
+
 	"github.com/very-important-unmutable-organization/equipment/internal/service"
 	"github.com/very-important-unmutable-organization/equipment/internal/transport/rest"
 	"github.com/very-important-unmutable-organization/equipment/pkg/logger"
@@ -56,7 +58,7 @@ func main() {
 
 	services, _ := service.NewServices(repos)
 
-	r := rest.NewRouter(repos, services).Init()
+	r := rest.NewRouter(repos, services, rest.RouterConfig(cfg.Router)).Init()
 
 	admin.Init(&cfg.Database, r)
 
