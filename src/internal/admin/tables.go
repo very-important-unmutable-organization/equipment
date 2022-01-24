@@ -20,6 +20,7 @@ func Init(cfg *config.DatabaseConfig, router *chi.Mux) {
 		"equipment":  GetEquipmentTable,
 		"item_types": GetItemTypeTable,
 		"purposes":   GetPurposeTable,
+		"origins":    GetOriginTable,
 	}
 
 	adminConf := adminConfig.Config{
