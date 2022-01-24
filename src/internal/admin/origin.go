@@ -29,7 +29,6 @@ func GetOriginTable(ctx *context.Context) table.Table {
 		FieldSortable()
 	info.AddField("Created at", "created_at", db.Timestamptz)
 	info.AddField("Updated at", "updated_at", db.Timestamptz)
-	info.AddField("Deleted at", "deleted_at", db.Timestamptz)
 	//TODO: this field doesn't display its value
 	info.AddField("Origin type", "origin_type", db.Varchar)
 	info.AddField("EmployeeUID", "employee_uid", db.UUID)
@@ -48,8 +47,6 @@ func GetOriginTable(ctx *context.Context) table.Table {
 	formList.AddField("Updated at", "updated_at", db.Timestamptz, form.Datetime).
 		FieldHide().
 		FieldNowWhenUpdate()
-	formList.AddField("Deleted at", "deleted_at", db.Timestamptz, form.Datetime).
-		FieldHide()
 	formList.AddField("Origin type", "type", db.Enum, form.SelectSingle).
 		FieldPlaceholder("-").
 		FieldOptions(types.FieldOptions{

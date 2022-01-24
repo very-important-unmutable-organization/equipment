@@ -29,7 +29,6 @@ func GetItemTypeTable(ctx *context.Context) table.Table {
 		FieldSortable()
 	info.AddField("Created at", "created_at", db.Timestamptz)
 	info.AddField("Updated at", "updated_at", db.Timestamptz)
-	info.AddField("Deleted at", "deleted_at", db.Timestamptz)
 	info.AddField("Category", "category", db.Varchar)
 	info.AddField("Name", "name", db.Varchar)
 
@@ -48,9 +47,6 @@ func GetItemTypeTable(ctx *context.Context) table.Table {
 	formList.AddField("Updated at", "updated_at", db.Timestamptz, form.Datetime).
 		FieldHide().
 		FieldNowWhenUpdate()
-	formList.AddField("Deleted at", "deleted_at", db.Timestamptz, form.Datetime).
-		FieldHide()
-
 	formList.AddField("Name", "name", db.Varchar, form.Text).
 		FieldMust()
 
