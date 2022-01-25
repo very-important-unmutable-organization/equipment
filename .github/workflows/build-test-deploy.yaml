@@ -110,7 +110,7 @@ jobs:
           API_SECRET_HEADER: ${{ secrets.API_SECRET_HEADER }}
           ENV: ${{ secrets.ENV }}
 
-      run: |
+        run: |
           echo "IMAGE_DB=${IMAGE_DB}" >> .env
           echo "IMAGE_APP=${IMAGE_APP}" >> .env
           echo "POSTGRES_HOST=${POSTGRES_HOST}" >> .env
