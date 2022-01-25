@@ -1,8 +1,9 @@
 package middleware
 
 import (
-	resp "github.com/very-important-unmutable-organization/equipment/pkg/responses"
 	"net/http"
+
+	resp "github.com/very-important-unmutable-organization/equipment/pkg/responses"
 
 	"github.com/go-chi/render"
 )

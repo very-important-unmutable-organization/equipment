@@ -1,10 +1,11 @@
 package rest
 
 import (
-	"github.com/go-chi/chi/middleware"
-	httpSwagger "github.com/swaggo/http-swagger"
 	"net/http"
 	_ "time"
+
+	"github.com/go-chi/chi/middleware"
+	httpSwagger "github.com/swaggo/http-swagger"
 
 	_ "github.com/GoAdminGroup/go-admin/adapter/chi"
 	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/postgres"
