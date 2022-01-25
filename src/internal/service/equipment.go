@@ -29,3 +29,8 @@ func (e *EquipmentService) GetById(id int) (*domain.Equipment, error) {
 	equipment, err := e.equipment.GetById(id)
 	return equipment, err
 }
+
+func (e *EquipmentService) EditById(id int, equipment *domain.Equipment) error {
+	err := e.equipment.EditById(id, equipment)
+	return err
+}

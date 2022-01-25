@@ -111,3 +111,41 @@ func (h *EquipmentHandler) getEquipmentById(w http.ResponseWriter, r *http.Reque
 
 	render.Respond(w, r, resp.ItemsResponse{Items: []domain.Equipment{*equipment}})
 }
+
+// @Summary  Edit equipment by id
+// @Security ApiKeyAuth
+// @Tags equipment
+// @Accept  json
+// @Produce  json
+// @Success 200
+// @Failure 401 {object} responses.ErrorResponse
+// @Failure 422 {object} responses.ErrorResponse
+// @Router /equipment/{id} [post]
+func (h *EquipmentHandler) editEquipmentById(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		render.Respond(w, r, resp.ErrorNotFound(nil))
+	}
+	data, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	equipment := new(domain.Equipment)
+
+	if err = json.Unmarshal(data, equipment); err != nil {
+		http.Error(w, http.StatusText(422), 422)
+		logrus.Debugf("Couldn't unmarshal: %s", err)
+		return
+	}
+
+	err = h.equipmentSrv.EditById(id, equipment)
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		logrus.Debugf("Couldn't edit equipment with id = %v; new value = %#v; error = %s", id, equipment, err)
+		return
+	}
+
+	render.Respond(w, r, resp.OK())
+}

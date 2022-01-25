@@ -36,3 +36,14 @@ func (e *EquipmentRepo) GetById(id int) (*domain.Equipment, error) {
 	res := e.db.First(equipment, id)
 	return equipment, res.Error
 }
+
+func (e *EquipmentRepo) EditById(id int, equipment *domain.Equipment) (err error) {
+	existing := new(domain.Equipment)
+	res := e.db.First(existing, id)
+	if res.Error != nil {
+		return res.Error
+	}
+	equipment.ID = existing.ID
+	res = e.db.Save(equipment)
+	return res.Error
+}
