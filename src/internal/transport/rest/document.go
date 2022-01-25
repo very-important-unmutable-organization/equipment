@@ -27,6 +27,7 @@ func NewDocumentHandler(binder binder.InputBinder, documentSrv service.DocumentS
 }
 
 // @Summary  Get all documents
+// @Security ApiKeyAuth
 // @Tags document
 // @Accept  json
 // @Produce  json
@@ -44,6 +45,7 @@ type createDocumentResponse struct {
 }
 
 // @Summary  Create document
+// @Security ApiKeyAuth
 // @Tags document
 // @Accept  json
 // @Produce  json
