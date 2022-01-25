@@ -56,7 +56,10 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           PORT: ${{ secrets.PORT }}
-        
+          API_SECRET: ${{ secrets.API_SECRET }}
+          API_SECRET_HEADER: ${{ secrets.API_SECRET_HEADER }}
+          ENV: ${{ secrets.ENV }}
+
         run: |
           echo "IMAGE_DB=${IMAGE_DB}" >> .env
           echo "IMAGE_APP=${IMAGE_APP}" >> .env
@@ -103,7 +106,10 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           PORT: ${{ secrets.PORT }}
-        
+          API_SECRET: ${{ secrets.API_SECRET }}
+          API_SECRET_HEADER: ${{ secrets.API_SECRET_HEADER }}
+          ENV: ${{ secrets.ENV }}
+
         run: |
           echo "IMAGE_DB=${IMAGE_DB}" >> .env
           echo "IMAGE_APP=${IMAGE_APP}" >> .env
