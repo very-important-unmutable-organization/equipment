@@ -89,6 +89,7 @@ func (h *EquipmentHandler) createEquipment(w http.ResponseWriter, r *http.Reques
 // @Tags equipment
 // @Accept  json
 // @Produce  json
+// @Param id path string true "Equipment ID"
 // @Failure 401 {object} responses.ErrorResponse
 // @Router /equipment/{id} [get]
 func (h *EquipmentHandler) getEquipmentById(w http.ResponseWriter, r *http.Request) {
@@ -115,7 +116,7 @@ func (h *EquipmentHandler) getEquipmentById(w http.ResponseWriter, r *http.Reque
 // @Tags equipment
 // @Accept  json
 // @Produce  json
-// @Param equipment_id path string true "Equipment ID"
+// @Param id path string true "Equipment ID"
 // @Success 200 {object} responses.Response
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 422 {object} responses.ErrorResponse
@@ -154,7 +155,7 @@ func (h *EquipmentHandler) editEquipmentById(w http.ResponseWriter, r *http.Requ
 // @Tags equipment
 // @Accept  json
 // @Produce json
-// @Param equipment_id path string true "Equipment ID"
+// @Param id path string true "Equipment ID"
 // @Success 200 {object} responses.Response
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 409 {object} responses.ErrorResponse
@@ -183,7 +184,7 @@ func (h *EquipmentHandler) takeEquipment(w http.ResponseWriter, r *http.Request)
 // @Tags equipment
 // @Accept  json
 // @Produce json
-// @Param equipment_id path string true "Equipment ID"
+// @Param id path string true "Equipment ID"
 // @Success 200 {object} responses.Response
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 409 {object} responses.ErrorResponse
@@ -212,7 +213,7 @@ func (h *EquipmentHandler) freeEquipment(w http.ResponseWriter, r *http.Request)
 // @Tags equipment
 // @Accept  json
 // @Produce application/octet-stream
-// @Param equipment_id path string true "Equipment ID"
+// @Param id path string true "Equipment ID"
 // @Success 200
 // @Failure 401 {object} responses.ErrorResponse
 // @Router /equipment/qr-code/{id} [get]
