@@ -44,11 +44,9 @@ type createItemTypeResponse struct {
 	Id uint `json:"id"`
 }
 
-type createItemTypeRequest struct { // nolint:unused, deadcode
-	Category string `gorm:"type:varchar;not null"`
-	Name     string `gorm:"type:varchar;not null"`
-
-	Id uint `json:"id"`
+type createItemRequest struct {
+	Category string `json:"category"`
+	Name     string `json:"name"`
 }
 
 // @Summary  Create item type
