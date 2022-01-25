@@ -212,6 +212,7 @@ func (h *EquipmentHandler) freeEquipment(w http.ResponseWriter, r *http.Request)
 // @Tags equipment
 // @Accept  json
 // @Produce application/octet-stream
+// @Param equipment_id path string true "Equipment ID"
 // @Success 200
 // @Failure 401 {object} responses.ErrorResponse
 // @Router /equipment/qr-code/{id} [get]
