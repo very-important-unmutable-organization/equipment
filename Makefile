@@ -1,19 +1,19 @@
 all: build down up
 
 pull:
-	docker-compose pull
+	docker-compose -f docker-compose.yml -f docker-compose.${ENV}.yml pull
 
 push:
-	docker-compose push
+	docker-compose -f docker-compose.yml -f docker-compose.${ENV}.yml push
 
 build:
-	docker-compose build
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
 
 up:
-	docker-compose up -d
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 down:
-	docker-compose down
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 
 psql:
 	docker exec -it equipment__db psql -U postgres
