@@ -1,11 +1,13 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/modules/db"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
 	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
+	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 
 func GetOriginTable(ctx *context.Context) table.Table {
@@ -29,8 +31,18 @@ func GetOriginTable(ctx *context.Context) table.Table {
 		FieldSortable()
 	info.AddField("Created at", "created_at", db.Timestamptz)
 	info.AddField("Updated at", "updated_at", db.Timestamptz)
-	//TODO: this field doesn't display its value
-	info.AddField("Origin type", "origin_type", db.Varchar)
+	info.AddField("Origin type", "type", db.Enum).
+		FieldDisplay(func(value types.FieldModel) interface{} {
+			// TODO: fast as fuck!!
+			itemType := fmt.Sprintf("%s", value.Row["type"])
+			if itemType == string(domain.CompanyProperty) {
+				return "Company property"
+			}
+			if itemType == string(domain.EmployeeProperty) {
+				return "Employee property"
+			}
+			return "-"
+		})
 	info.AddField("EmployeeUID", "employee_uid", db.UUID)
 	info.SetTable("origins").
 		SetTitle("Origins").
@@ -47,7 +59,7 @@ func GetOriginTable(ctx *context.Context) table.Table {
 	formList.AddField("Updated at", "updated_at", db.Timestamptz, form.Datetime).
 		FieldHide().
 		FieldNow()
-	formList.AddField("Origin type", "type", db.Enum, form.SelectSingle).
+	formList.AddField("Origin type", "type", db.Varchar, form.SelectSingle).
 		FieldPlaceholder("-").
 		FieldOptions(types.FieldOptions{
 			{Text: "Company property", Value: "company"},
