@@ -57,7 +57,7 @@ func GetEquipmentTable(ctx *context.Context) table.Table {
 		FieldNowWhenInsert()
 	formList.AddField("Updated at", "updated_at", db.Timestamptz, form.Datetime).
 		FieldHide().
-		FieldNowWhenUpdate()
+		FieldNow()
 	formList.AddField("Category", "category", db.Enum, form.SelectSingle).
 		FieldMust().
 		FieldPlaceholder("-").

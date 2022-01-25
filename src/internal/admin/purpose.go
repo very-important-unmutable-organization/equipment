@@ -46,7 +46,7 @@ func GetPurposeTable(ctx *context.Context) table.Table {
 		FieldNowWhenInsert()
 	formList.AddField("Updated at", "updated_at", db.Timestamptz, form.Datetime).
 		FieldHide().
-		FieldNowWhenUpdate()
+		FieldNow()
 	formList.AddField("Type", "type", db.Enum, form.SelectSingle).
 		FieldPlaceholder("Personal").
 		FieldOptions(types.FieldOptions{

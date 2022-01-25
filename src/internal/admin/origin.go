@@ -46,7 +46,7 @@ func GetOriginTable(ctx *context.Context) table.Table {
 		FieldNowWhenInsert()
 	formList.AddField("Updated at", "updated_at", db.Timestamptz, form.Datetime).
 		FieldHide().
-		FieldNowWhenUpdate()
+		FieldNow()
 	formList.AddField("Origin type", "type", db.Enum, form.SelectSingle).
 		FieldPlaceholder("-").
 		FieldOptions(types.FieldOptions{
