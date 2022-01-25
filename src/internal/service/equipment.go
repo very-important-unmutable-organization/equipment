@@ -34,3 +34,11 @@ func (e *EquipmentService) EditById(id int, equipment *domain.Equipment) error {
 	err := e.equipment.EditById(id, equipment)
 	return err
 }
+
+func (e *EquipmentService) Take(id int) error {
+	return e.equipment.Take(id)
+}
+
+func (e *EquipmentService) Free(id int) error {
+	return e.equipment.Free(id)
+}

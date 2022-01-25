@@ -8,6 +8,24 @@ import (
 	"gorm.io/gorm"
 )
 
+var _ error = ErrorEquipmentTaken{}
+
+type ErrorEquipmentTaken struct {
+}
+
+func (e ErrorEquipmentTaken) Error() string {
+	return "Equipment is already taken"
+}
+
+var _ error = ErrorEquipmentFree{}
+
+type ErrorEquipmentFree struct {
+}
+
+func (e ErrorEquipmentFree) Error() string {
+	return "Equipment is already free"
+}
+
 type Equipment struct {
 	gorm.Model
 	Category        Category `gorm:"type:category;not null"`

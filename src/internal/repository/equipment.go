@@ -47,3 +47,31 @@ func (e *EquipmentRepo) EditById(id int, equipment *domain.Equipment) (err error
 	res = e.db.Save(equipment)
 	return res.Error
 }
+
+func (e *EquipmentRepo) Take(id int) error {
+	equipment := new(domain.Equipment)
+	res := e.db.First(equipment, id)
+	if res.Error != nil {
+		return res.Error
+	}
+	if equipment.Status == domain.Taken {
+		return domain.ErrorEquipmentTaken{}
+	}
+	equipment.Status = domain.Taken
+	e.db.Save(equipment)
+	return nil
+}
+
+func (e *EquipmentRepo) Free(id int) error {
+	equipment := new(domain.Equipment)
+	res := e.db.First(equipment, id)
+	if res.Error != nil {
+		return res.Error
+	}
+	if equipment.Status == domain.Free {
+		return domain.ErrorEquipmentFree{}
+	}
+	equipment.Status = domain.Free
+	e.db.Save(equipment)
+	return nil
+}

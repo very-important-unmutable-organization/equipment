@@ -2,11 +2,13 @@ package rest
 
 import (
 	"encoding/json"
-	"github.com/go-chi/chi"
-	"gorm.io/gorm"
+	"errors"
 	"io"
 	"net/http"
 	"strconv"
+
+	"github.com/go-chi/chi"
+	"gorm.io/gorm"
 
 	"github.com/go-chi/render"
 	"github.com/sirupsen/logrus"
@@ -91,7 +93,6 @@ func (h *EquipmentHandler) createEquipment(w http.ResponseWriter, r *http.Reques
 // @Accept  json
 // @Produce  json
 // @Failure 401 {object} responses.ErrorResponse
-// @Failure 422 {object} responses.ErrorResponse
 // @Router /equipment/{id} [get]
 func (h *EquipmentHandler) getEquipmentById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
@@ -144,6 +145,62 @@ func (h *EquipmentHandler) editEquipmentById(w http.ResponseWriter, r *http.Requ
 	if err != nil {
 		http.Error(w, http.StatusText(500), 500)
 		logrus.Debugf("Couldn't edit equipment with id = %v; new value = %#v; error = %s", id, equipment, err)
+		return
+	}
+
+	render.Respond(w, r, resp.OK())
+}
+
+// @Summary  Mark equipment with given id as taken
+// @Security ApiKeyAuth
+// @Tags equipment
+// @Accept  json
+// @Produce json
+// @Success 200
+// @Failure 401 {object} responses.ErrorResponse
+// @Failure 409 {object} responses.ErrorResponse
+// @Router /equipment/take/{id} [put]
+func (h *EquipmentHandler) takeEquipment(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		render.Respond(w, r, resp.ErrorNotFound(nil))
+		return
+	}
+	err = h.equipmentSrv.Take(id)
+	if errors.Is(err, domain.ErrorEquipmentTaken{}) {
+		http.Error(w, http.StatusText(409), 409)
+		return
+	}
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	render.Respond(w, r, resp.OK())
+}
+
+// @Summary  Mark equipment with given id as free
+// @Security ApiKeyAuth
+// @Tags equipment
+// @Accept  json
+// @Produce json
+// @Success 200
+// @Failure 401 {object} responses.ErrorResponse
+// @Failure 409 {object} responses.ErrorResponse
+// @Router /equipment/free/{id} [put]
+func (h *EquipmentHandler) freeEquipment(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		render.Respond(w, r, resp.ErrorNotFound(nil))
+		return
+	}
+	err = h.equipmentSrv.Free(id)
+	if errors.Is(err, domain.ErrorEquipmentFree{}) {
+		http.Error(w, http.StatusText(409), 409)
+		return
+	}
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
 		return
 	}
 

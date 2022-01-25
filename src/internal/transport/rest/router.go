@@ -76,6 +76,8 @@ func (r *Router) registerEquipmentRouter() chi.Router {
 	router.Post("/", h.createEquipment)
 	router.Get("/{id}", h.getEquipmentById)
 	router.Post("/{id}", h.editEquipmentById)
+	router.Put("/take/{id}", h.takeEquipment)
+	router.Put("/free/{id}", h.freeEquipment)
 
 	return router
 }
