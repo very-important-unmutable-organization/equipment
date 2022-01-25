@@ -30,3 +30,9 @@ func (e *EquipmentRepo) CreateEquipment(equipment *domain.Equipment) (err error)
 	res := e.db.Create(equipment)
 	return res.Error
 }
+
+func (e *EquipmentRepo) GetById(id int) (*domain.Equipment, error) {
+	equipment := new(domain.Equipment)
+	res := e.db.First(equipment, id)
+	return equipment, res.Error
+}

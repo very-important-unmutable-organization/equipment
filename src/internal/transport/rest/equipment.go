@@ -2,8 +2,11 @@ package rest
 
 import (
 	"encoding/json"
+	"github.com/go-chi/chi"
+	"gorm.io/gorm"
 	"io"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/render"
 	"github.com/sirupsen/logrus"
@@ -77,4 +80,34 @@ func (h *EquipmentHandler) createEquipment(w http.ResponseWriter, r *http.Reques
 	}
 
 	render.Respond(w, r, createEquipmentResponse{equipment.ID})
+}
+
+//TODO: don't know how to mark success response
+////@Success 200 {object} createEquipmentResponse
+
+// @Summary  Get equipment by its id
+// @Security ApiKeyAuth
+// @Tags equipment
+// @Accept  json
+// @Produce  json
+// @Failure 401 {object} responses.ErrorResponse
+// @Failure 422 {object} responses.ErrorResponse
+// @Router /equipment/{id} [get]
+func (h *EquipmentHandler) getEquipmentById(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		render.Respond(w, r, resp.ErrorNotFound(nil))
+		return
+	}
+	equipment, err := h.equipmentSrv.GetById(id)
+	if err == gorm.ErrRecordNotFound {
+		render.Respond(w, r, resp.ItemsResponse{Items: []domain.Equipment{}})
+		return
+	}
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	render.Respond(w, r, resp.ItemsResponse{Items: []domain.Equipment{*equipment}})
 }

@@ -24,3 +24,8 @@ func (e *EquipmentService) CreateEquipment(in *domain.Equipment) (equipment *dom
 	}
 	return in, nil
 }
+
+func (e *EquipmentService) GetById(id int) (*domain.Equipment, error) {
+	equipment, err := e.equipment.GetById(id)
+	return equipment, err
+}
