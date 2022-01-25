@@ -45,10 +45,8 @@ type createItemTypeResponse struct {
 }
 
 type createItemRequest struct {
-	Category string `gorm:"type:varchar;not null"`
-	Name     string `gorm:"type:varchar;not null"`
-
-	Id uint `json:"id"`
+	Category string `json:"category"`
+	Name     string `json:"name"`
 }
 
 // @Summary  Create item type
