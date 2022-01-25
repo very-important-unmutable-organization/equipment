@@ -46,7 +46,7 @@ func GetPhotoTable(ctx *context.Context) table.Table {
 	formList.AddField("Updated at", "updated_at", db.Timestamptz, form.Datetime).
 		FieldHide().
 		FieldNow()
-	formList.AddField("Item ID", "item_id", db.Int8, form.Text)
+	formList.AddField("Item ID", "item_id", db.Int8, form.Number)
 	formList.AddField("Location", "location", db.Varchar, form.Text)
 
 	formList.SetTable("photos").

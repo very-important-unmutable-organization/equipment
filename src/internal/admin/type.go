@@ -49,7 +49,6 @@ func GetItemTypeTable(ctx *context.Context) table.Table {
 		FieldNow()
 	formList.AddField("Name", "name", db.Varchar, form.Text).
 		FieldMust()
-
 	formList.AddField("Category", "category", db.Varchar, form.Text).
 		FieldMust()
 
