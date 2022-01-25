@@ -44,7 +44,7 @@ type createItemTypeResponse struct {
 	Id uint `json:"id"`
 }
 
-type createItemRequest struct {
+type createItemTypeRequest struct { // nolint:unused, deadcode
 	Category string `gorm:"type:varchar;not null"`
 	Name     string `gorm:"type:varchar;not null"`
 
@@ -56,7 +56,7 @@ type createItemRequest struct {
 // @Tags itemType
 // @Accept  json
 // @Produce  json
-// @Param input body createItemRequest true "User registration data"
+// @Param input body createItemTypeRequest true "User registration data"
 // @Success 200 {object} createItemTypeResponse
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 422 {object} responses.ErrorResponse

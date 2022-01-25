@@ -14,7 +14,7 @@ func ApiKeyAuthentication(apiToken string, apiTokenHeader string) func(http.Hand
 			tokenHeader := r.Header.Get(apiTokenHeader)
 			if tokenHeader != apiToken {
 				w.Header().Add("WWW-Authenticate", "Api Key Authentication")
-				render.Render(w, r, resp.ErrorUnauthorized())
+				_ = render.Render(w, r, resp.ErrorUnauthorized())
 				return
 			}
 			nextHandler.ServeHTTP(w, r)
