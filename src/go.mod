@@ -11,7 +11,9 @@ require (
 	github.com/go-playground/validator/v10 v10.10.0
 	github.com/shopspring/decimal v1.2.0
 	github.com/sirupsen/logrus v1.8.1
+	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 	github.com/spf13/viper v1.9.0
+	github.com/swaggo/http-swagger v1.2.0
 	github.com/swaggo/swag v1.7.8
 	go.uber.org/zap v1.17.0
 	gopkg.in/guregu/null.v4 v4.0.0
@@ -77,7 +79,6 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
 	github.com/swaggo/files v0.0.0-20210815190702-a29dd2bc99b2 // indirect
-	github.com/swaggo/http-swagger v1.2.0 // indirect
 	github.com/syndtr/goleveldb v1.0.0 // indirect
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	go.uber.org/atomic v1.7.0 // indirect

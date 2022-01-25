@@ -206,3 +206,27 @@ func (h *EquipmentHandler) freeEquipment(w http.ResponseWriter, r *http.Request)
 
 	render.Respond(w, r, resp.OK())
 }
+
+// @Summary  Get QR code for equipment with given id
+// @Security ApiKeyAuth
+// @Tags equipment
+// @Accept  json
+// @Produce application/octet-stream
+// @Success 200
+// @Failure 401 {object} responses.ErrorResponse
+// @Router /equipment/qr-code/{id} [get]
+func (h *EquipmentHandler) getQrCode(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		render.Respond(w, r, resp.ErrorNotFound(nil))
+		return
+	}
+	pic, err := h.equipmentSrv.GetQrForId(id, "equipment.2tapp.cc/api/v1/equipment/")
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/octet-stream")
+	_, _ = w.Write(pic)
+}

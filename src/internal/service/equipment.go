@@ -1,8 +1,10 @@
 package service
 
 import (
+	qrcode "github.com/skip2/go-qrcode"
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 	"github.com/very-important-unmutable-organization/equipment/internal/repository"
+	"strconv"
 )
 
 type EquipmentService struct {
@@ -41,4 +43,12 @@ func (e *EquipmentService) Take(id int) error {
 
 func (e *EquipmentService) Free(id int) error {
 	return e.equipment.Free(id)
+}
+
+func (e *EquipmentService) GetQrForId(id int, prefix string) ([]byte, error) {
+	_, err := e.equipment.GetById(id)
+	if err != nil {
+		return nil, err
+	}
+	return qrcode.Encode(prefix+strconv.Itoa(id), qrcode.Medium, 256)
 }
