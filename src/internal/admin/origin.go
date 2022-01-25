@@ -4,12 +4,12 @@ import (
 	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/modules/db"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
-	_ "github.com/GoAdminGroup/go-admin/template/types"
+	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
 )
 
-func GetItemTypeTable(ctx *context.Context) table.Table {
-	itemType := table.NewDefaultTable(table.Config{
+func GetOriginTable(ctx *context.Context) table.Table {
+	origins := table.NewDefaultTable(table.Config{
 		Driver:     db.DriverPostgresql,
 		CanAdd:     true,
 		Editable:   true,
@@ -22,21 +22,21 @@ func GetItemTypeTable(ctx *context.Context) table.Table {
 		},
 	})
 
-	info := itemType.GetInfo().HideFilterArea()
+	info := origins.GetInfo().HideFilterArea()
 
 	info.AddField("Id", "id", db.Int8).
 		FieldFilterable().
 		FieldSortable()
 	info.AddField("Created at", "created_at", db.Timestamptz)
 	info.AddField("Updated at", "updated_at", db.Timestamptz)
-	info.AddField("Category", "category", db.Varchar)
-	info.AddField("Name", "name", db.Varchar)
+	//TODO: this field doesn't display its value
+	info.AddField("Origin type", "origin_type", db.Varchar)
+	info.AddField("EmployeeUID", "employee_uid", db.UUID)
+	info.SetTable("origins").
+		SetTitle("Origins").
+		SetDescription("Equipment origins")
 
-	info.SetTable("item_types").
-		SetTitle("Equipment type").
-		SetDescription("Equipment type")
-
-	formList := itemType.GetForm()
+	formList := origins.GetForm()
 
 	formList.AddField("Id", "id", db.Int8, form.Default).
 		FieldDisplayButCanNotEditWhenUpdate()
@@ -47,12 +47,18 @@ func GetItemTypeTable(ctx *context.Context) table.Table {
 	formList.AddField("Updated at", "updated_at", db.Timestamptz, form.Datetime).
 		FieldHide().
 		FieldNow()
-	formList.AddField("Name", "name", db.Varchar, form.Text).
+	formList.AddField("Origin type", "type", db.Enum, form.SelectSingle).
+		FieldPlaceholder("-").
+		FieldOptions(types.FieldOptions{
+			{Text: "Company property", Value: "company"},
+			{Text: "Employee property", Value: "employee"},
+		}).
 		FieldMust()
-	formList.AddField("Category", "category", db.Varchar, form.Text).
-		FieldMust()
+	formList.AddField("EmployeeUID", "employee_uid", db.UUID, form.Text)
 
-	formList.SetTable("item_types").SetTitle("Equipment type").SetDescription("Equipment type")
+	formList.SetTable("origins").
+		SetTitle("Origins").
+		SetDescription("Equipment origins")
 
-	return itemType
+	return origins
 }

@@ -29,7 +29,6 @@ func GetEquipmentTable(ctx *context.Context) table.Table {
 		FieldSortable()
 	info.AddField("Created at", "created_at", db.Timestamptz)
 	info.AddField("Updated at", "updated_at", db.Timestamptz)
-	info.AddField("Deleted at", "deleted_at", db.Timestamptz)
 	info.AddField("Category", "category", db.Varchar)
 	info.AddField("Name", "name", db.Varchar)
 	info.AddField("Description", "description", db.Text)
@@ -59,12 +58,9 @@ func GetEquipmentTable(ctx *context.Context) table.Table {
 	formList.AddField("Updated at", "updated_at", db.Timestamptz, form.Datetime).
 		FieldHide().
 		FieldNow()
-	formList.AddField("Deleted at", "deleted_at", db.Timestamptz, form.Datetime).
-		FieldHide().
-		FieldNowWhenInsert()
 	formList.AddField("Category", "category", db.Enum, form.SelectSingle).
 		FieldMust().
-		FieldPlaceholder("kek").
+		FieldPlaceholder("-").
 		FieldOptions(types.FieldOptions{
 			{Text: "Furniture", Value: "furniture"},
 			{Text: "Office Equipment", Value: "office_equipment"},
@@ -73,7 +69,8 @@ func GetEquipmentTable(ctx *context.Context) table.Table {
 	formList.AddField("Name", "name", db.Varchar, form.Text).
 		FieldMust()
 	formList.AddField("Description", "description", db.Text, form.RichText)
-	formList.AddField("Serial number", "serial_number", db.Text, form.RichText)
+	formList.AddField("Serial number", "serial_number", db.Text, form.Text).
+		FieldMust()
 	formList.AddField("Type code", "type_code", db.Int8, form.Number).
 		FieldMust()
 	formList.AddField("Status", "status", db.Enum, form.SelectSingle).

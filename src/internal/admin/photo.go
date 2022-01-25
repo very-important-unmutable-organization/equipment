@@ -4,12 +4,11 @@ import (
 	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/modules/db"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
-	_ "github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
 )
 
-func GetItemTypeTable(ctx *context.Context) table.Table {
-	itemType := table.NewDefaultTable(table.Config{
+func GetPhotoTable(ctx *context.Context) table.Table {
+	photos := table.NewDefaultTable(table.Config{
 		Driver:     db.DriverPostgresql,
 		CanAdd:     true,
 		Editable:   true,
@@ -22,21 +21,21 @@ func GetItemTypeTable(ctx *context.Context) table.Table {
 		},
 	})
 
-	info := itemType.GetInfo().HideFilterArea()
+	info := photos.GetInfo().HideFilterArea()
 
 	info.AddField("Id", "id", db.Int8).
 		FieldFilterable().
 		FieldSortable()
 	info.AddField("Created at", "created_at", db.Timestamptz)
 	info.AddField("Updated at", "updated_at", db.Timestamptz)
-	info.AddField("Category", "category", db.Varchar)
-	info.AddField("Name", "name", db.Varchar)
+	info.AddField("Item ID", "item_id", db.Int8)
+	info.AddField("Location", "location", db.Varchar)
 
-	info.SetTable("item_types").
-		SetTitle("Equipment type").
-		SetDescription("Equipment type")
+	info.SetTable("photos").
+		SetTitle("Photos").
+		SetDescription("Photos related to equipment")
 
-	formList := itemType.GetForm()
+	formList := photos.GetForm()
 
 	formList.AddField("Id", "id", db.Int8, form.Default).
 		FieldDisplayButCanNotEditWhenUpdate()
@@ -47,12 +46,12 @@ func GetItemTypeTable(ctx *context.Context) table.Table {
 	formList.AddField("Updated at", "updated_at", db.Timestamptz, form.Datetime).
 		FieldHide().
 		FieldNow()
-	formList.AddField("Name", "name", db.Varchar, form.Text).
-		FieldMust()
-	formList.AddField("Category", "category", db.Varchar, form.Text).
-		FieldMust()
+	formList.AddField("Item ID", "item_id", db.Int8, form.Number)
+	formList.AddField("Location", "location", db.Varchar, form.Text)
 
-	formList.SetTable("item_types").SetTitle("Equipment type").SetDescription("Equipment type")
+	formList.SetTable("photos").
+		SetTitle("Photos").
+		SetDescription("Photos related to equipment")
 
-	return itemType
+	return photos
 }

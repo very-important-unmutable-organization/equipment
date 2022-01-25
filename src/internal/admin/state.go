@@ -4,12 +4,11 @@ import (
 	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/modules/db"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
-	_ "github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
 )
 
-func GetItemTypeTable(ctx *context.Context) table.Table {
-	itemType := table.NewDefaultTable(table.Config{
+func GetStateTable(ctx *context.Context) table.Table {
+	states := table.NewDefaultTable(table.Config{
 		Driver:     db.DriverPostgresql,
 		CanAdd:     true,
 		Editable:   true,
@@ -22,21 +21,20 @@ func GetItemTypeTable(ctx *context.Context) table.Table {
 		},
 	})
 
-	info := itemType.GetInfo().HideFilterArea()
+	info := states.GetInfo().HideFilterArea()
 
 	info.AddField("Id", "id", db.Int8).
 		FieldFilterable().
 		FieldSortable()
 	info.AddField("Created at", "created_at", db.Timestamptz)
 	info.AddField("Updated at", "updated_at", db.Timestamptz)
-	info.AddField("Category", "category", db.Varchar)
 	info.AddField("Name", "name", db.Varchar)
 
-	info.SetTable("item_types").
-		SetTitle("Equipment type").
-		SetDescription("Equipment type")
+	info.SetTable("states").
+		SetTitle("States").
+		SetDescription("Item states")
 
-	formList := itemType.GetForm()
+	formList := states.GetForm()
 
 	formList.AddField("Id", "id", db.Int8, form.Default).
 		FieldDisplayButCanNotEditWhenUpdate()
@@ -47,12 +45,17 @@ func GetItemTypeTable(ctx *context.Context) table.Table {
 	formList.AddField("Updated at", "updated_at", db.Timestamptz, form.Datetime).
 		FieldHide().
 		FieldNow()
-	formList.AddField("Name", "name", db.Varchar, form.Text).
-		FieldMust()
-	formList.AddField("Category", "category", db.Varchar, form.Text).
-		FieldMust()
+	formList.AddField("Name", "name", db.Varchar, form.Text)
 
-	formList.SetTable("item_types").SetTitle("Equipment type").SetDescription("Equipment type")
+	//formList.SetTabGroups(types.
+	//	NewTabGroups("id", "created_at", "updated_at", "deleted_at").
+	//	AddGroup("name", "description", "serial_number", "status", "state_code").
+	//	AddGroup("price", "currency"),
+	//)
 
-	return itemType
+	formList.SetTable("states").
+		SetTitle("States").
+		SetDescription("Item states")
+
+	return states
 }
