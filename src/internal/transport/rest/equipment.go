@@ -84,9 +84,6 @@ func (h *EquipmentHandler) createEquipment(w http.ResponseWriter, r *http.Reques
 	render.Respond(w, r, createEquipmentResponse{equipment.ID})
 }
 
-//TODO: don't know how to mark success response
-////@Success 200 {object} createEquipmentResponse
-
 // @Summary  Get equipment by its id
 // @Security ApiKeyAuth
 // @Tags equipment
@@ -118,10 +115,11 @@ func (h *EquipmentHandler) getEquipmentById(w http.ResponseWriter, r *http.Reque
 // @Tags equipment
 // @Accept  json
 // @Produce  json
-// @Success 200
+// @Param equipment_id path string true "Equipment ID"
+// @Success 200 {object} responses.Response
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 422 {object} responses.ErrorResponse
-// @Router /equipment/{id} [post]
+// @Router /equipment/{id} [put]
 func (h *EquipmentHandler) editEquipmentById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
@@ -156,7 +154,8 @@ func (h *EquipmentHandler) editEquipmentById(w http.ResponseWriter, r *http.Requ
 // @Tags equipment
 // @Accept  json
 // @Produce json
-// @Success 200
+// @Param equipment_id path string true "Equipment ID"
+// @Success 200 {object} responses.Response
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 409 {object} responses.ErrorResponse
 // @Router /equipment/take/{id} [put]
@@ -184,7 +183,8 @@ func (h *EquipmentHandler) takeEquipment(w http.ResponseWriter, r *http.Request)
 // @Tags equipment
 // @Accept  json
 // @Produce json
-// @Success 200
+// @Param equipment_id path string true "Equipment ID"
+// @Success 200 {object} responses.Response
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 409 {object} responses.ErrorResponse
 // @Router /equipment/free/{id} [put]

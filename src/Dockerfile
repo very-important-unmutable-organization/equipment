@@ -30,5 +30,5 @@ WORKDIR /go/src/app
 
 COPY --from=builder /go/src/app/ /go/src/app/
 COPY --from=builder /wait /wait
-COPY start.sh /go/src/app
-CMD ["./start.sh"]
+
+CMD ["./equipment-app"]
