@@ -1,10 +1,12 @@
 package service
 
 import (
+	"strconv"
+
 	qrcode "github.com/skip2/go-qrcode"
+
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 	"github.com/very-important-unmutable-organization/equipment/internal/repository"
-	"strconv"
 )
 
 type EquipmentService struct {
