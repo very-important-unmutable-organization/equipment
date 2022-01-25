@@ -2,8 +2,13 @@ package rest
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
+	"strconv"
+
+	"github.com/go-chi/chi"
+	"gorm.io/gorm"
 
 	"github.com/go-chi/render"
 	"github.com/sirupsen/logrus"
@@ -77,4 +82,127 @@ func (h *EquipmentHandler) createEquipment(w http.ResponseWriter, r *http.Reques
 	}
 
 	render.Respond(w, r, createEquipmentResponse{equipment.ID})
+}
+
+//TODO: don't know how to mark success response
+////@Success 200 {object} createEquipmentResponse
+
+// @Summary  Get equipment by its id
+// @Security ApiKeyAuth
+// @Tags equipment
+// @Accept  json
+// @Produce  json
+// @Failure 401 {object} responses.ErrorResponse
+// @Router /equipment/{id} [get]
+func (h *EquipmentHandler) getEquipmentById(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		render.Respond(w, r, resp.ErrorNotFound(nil))
+		return
+	}
+	equipment, err := h.equipmentSrv.GetById(id)
+	if err == gorm.ErrRecordNotFound {
+		render.Respond(w, r, resp.ItemsResponse{Items: []domain.Equipment{}})
+		return
+	}
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	render.Respond(w, r, resp.ItemsResponse{Items: []domain.Equipment{*equipment}})
+}
+
+// @Summary  Edit equipment by id
+// @Security ApiKeyAuth
+// @Tags equipment
+// @Accept  json
+// @Produce  json
+// @Success 200
+// @Failure 401 {object} responses.ErrorResponse
+// @Failure 422 {object} responses.ErrorResponse
+// @Router /equipment/{id} [post]
+func (h *EquipmentHandler) editEquipmentById(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		render.Respond(w, r, resp.ErrorNotFound(nil))
+	}
+	data, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	equipment := new(domain.Equipment)
+
+	if err = json.Unmarshal(data, equipment); err != nil {
+		http.Error(w, http.StatusText(422), 422)
+		logrus.Debugf("Couldn't unmarshal: %s", err)
+		return
+	}
+
+	err = h.equipmentSrv.EditById(id, equipment)
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		logrus.Debugf("Couldn't edit equipment with id = %v; new value = %#v; error = %s", id, equipment, err)
+		return
+	}
+
+	render.Respond(w, r, resp.OK())
+}
+
+// @Summary  Mark equipment with given id as taken
+// @Security ApiKeyAuth
+// @Tags equipment
+// @Accept  json
+// @Produce json
+// @Success 200
+// @Failure 401 {object} responses.ErrorResponse
+// @Failure 409 {object} responses.ErrorResponse
+// @Router /equipment/take/{id} [put]
+func (h *EquipmentHandler) takeEquipment(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		render.Respond(w, r, resp.ErrorNotFound(nil))
+		return
+	}
+	err = h.equipmentSrv.Take(id)
+	if errors.Is(err, domain.ErrorEquipmentTaken{}) {
+		http.Error(w, http.StatusText(409), 409)
+		return
+	}
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	render.Respond(w, r, resp.OK())
+}
+
+// @Summary  Mark equipment with given id as free
+// @Security ApiKeyAuth
+// @Tags equipment
+// @Accept  json
+// @Produce json
+// @Success 200
+// @Failure 401 {object} responses.ErrorResponse
+// @Failure 409 {object} responses.ErrorResponse
+// @Router /equipment/free/{id} [put]
+func (h *EquipmentHandler) freeEquipment(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		render.Respond(w, r, resp.ErrorNotFound(nil))
+		return
+	}
+	err = h.equipmentSrv.Free(id)
+	if errors.Is(err, domain.ErrorEquipmentFree{}) {
+		http.Error(w, http.StatusText(409), 409)
+		return
+	}
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	render.Respond(w, r, resp.OK())
 }
