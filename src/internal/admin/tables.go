@@ -22,6 +22,7 @@ func Init(cfg *config.DatabaseConfig, router *chi.Mux) {
 		"purposes":   GetPurposeTable,
 		"origins":    GetOriginTable,
 		"states":     GetStateTable,
+		"documents":  GetDocumentTable,
 	}
 
 	adminConf := adminConfig.Config{
