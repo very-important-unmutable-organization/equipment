@@ -10,6 +10,18 @@ import (
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 
+func displayOriginTypeValue(value types.FieldModel) interface{} {
+	// TODO: fast as fuck!!
+	itemType := fmt.Sprintf("%s", value.Row["type"])
+	if itemType == string(domain.CompanyProperty) {
+		return "Company property"
+	}
+	if itemType == string(domain.EmployeeProperty) {
+		return "Employee property"
+	}
+	return "-"
+}
+
 func GetOriginTable(ctx *context.Context) table.Table {
 	origins := table.NewDefaultTable(table.Config{
 		Driver:     db.DriverPostgresql,
@@ -32,17 +44,7 @@ func GetOriginTable(ctx *context.Context) table.Table {
 	info.AddField("Created at", "created_at", db.Timestamptz)
 	info.AddField("Updated at", "updated_at", db.Timestamptz)
 	info.AddField("Origin type", "type", db.Enum).
-		FieldDisplay(func(value types.FieldModel) interface{} {
-			// TODO: fast as fuck!!
-			itemType := fmt.Sprintf("%s", value.Row["type"])
-			if itemType == string(domain.CompanyProperty) {
-				return "Company property"
-			}
-			if itemType == string(domain.EmployeeProperty) {
-				return "Employee property"
-			}
-			return "-"
-		})
+		FieldDisplay(displayOriginTypeValue)
 	info.AddField("EmployeeUID", "employee_uid", db.UUID)
 	info.SetTable("origins").
 		SetTitle("Origins").
@@ -62,10 +64,11 @@ func GetOriginTable(ctx *context.Context) table.Table {
 	formList.AddField("Origin type", "type", db.Varchar, form.SelectSingle).
 		FieldPlaceholder("-").
 		FieldOptions(types.FieldOptions{
-			{Text: "Company property", Value: "company"},
-			{Text: "Employee property", Value: "employee"},
+			{Text: "Company property", Value: string(domain.CompanyProperty)},
+			{Text: "Employee property", Value: string(domain.EmployeeProperty)},
 		}).
-		FieldMust()
+		FieldMust().
+		FieldDisplay(displayOriginTypeValue)
 	formList.AddField("EmployeeUID", "employee_uid", db.UUID, form.Text)
 
 	formList.SetTable("origins").
