@@ -69,7 +69,8 @@ func GetEquipmentTable(ctx *context.Context) table.Table {
 	formList.AddField("Name", "name", db.Varchar, form.Text).
 		FieldMust()
 	formList.AddField("Description", "description", db.Text, form.RichText)
-	formList.AddField("Serial number", "serial_number", db.Text, form.RichText)
+	formList.AddField("Serial number", "serial_number", db.Text, form.Text).
+		FieldMust()
 	formList.AddField("Type code", "type_code", db.Int8, form.Number).
 		FieldMust()
 	formList.AddField("Status", "status", db.Enum, form.SelectSingle).
