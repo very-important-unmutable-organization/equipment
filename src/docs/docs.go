@@ -170,9 +170,21 @@ var doc = `{
                     "equipment"
                 ],
                 "summary": "Mark equipment with given id as free",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Equipment ID",
+                        "name": "equipment_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -182,6 +194,45 @@ var doc = `{
                     },
                     "409": {
                         "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/equipment/qr-code/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "equipment"
+                ],
+                "summary": "Get QR code for equipment with given id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Equipment ID",
+                        "name": "equipment_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/responses.ErrorResponse"
                         }
@@ -206,9 +257,21 @@ var doc = `{
                     "equipment"
                 ],
                 "summary": "Mark equipment with given id as taken",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Equipment ID",
+                        "name": "equipment_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -251,7 +314,7 @@ var doc = `{
                     }
                 }
             },
-            "post": {
+            "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -267,9 +330,21 @@ var doc = `{
                     "equipment"
                 ],
                 "summary": "Edit equipment by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Equipment ID",
+                        "name": "equipment_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -654,6 +729,14 @@ var doc = `{
             "properties": {
                 "error": {
                     "$ref": "#/definitions/responses.errorDetail"
+                }
+            }
+        },
+        "responses.Response": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
                 }
             }
         },

@@ -5,6 +5,11 @@ definitions:
       error:
         $ref: '#/definitions/responses.errorDetail'
     type: object
+  responses.Response:
+    properties:
+      message:
+        type: string
+    type: object
   responses.errorDetail:
     properties:
       code:
@@ -158,14 +163,22 @@ paths:
       summary: Get equipment by its id
       tags:
       - equipment
-    post:
+    put:
       consumes:
       - application/json
+      parameters:
+      - description: Equipment ID
+        in: path
+        name: equipment_id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: ""
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
         "401":
           description: Unauthorized
           schema:
@@ -183,11 +196,19 @@ paths:
     put:
       consumes:
       - application/json
+      parameters:
+      - description: Equipment ID
+        in: path
+        name: equipment_id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: ""
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
         "401":
           description: Unauthorized
           schema:
@@ -201,15 +222,47 @@ paths:
       summary: Mark equipment with given id as free
       tags:
       - equipment
+  /equipment/qr-code/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Equipment ID
+        in: path
+        name: equipment_id
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: ""
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get QR code for equipment with given id
+      tags:
+      - equipment
   /equipment/take/{id}:
     put:
       consumes:
       - application/json
+      parameters:
+      - description: Equipment ID
+        in: path
+        name: equipment_id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: ""
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
         "401":
           description: Unauthorized
           schema:
