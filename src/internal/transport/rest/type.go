@@ -44,7 +44,7 @@ type createItemTypeResponse struct {
 	Id uint `json:"id"`
 }
 
-type createItemRequest struct {
+type createItemTypeRequest struct { // nolint:unused,deadcode
 	Category string `json:"category"`
 	Name     string `json:"name"`
 }
