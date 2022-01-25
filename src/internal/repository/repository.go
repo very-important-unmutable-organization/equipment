@@ -18,7 +18,13 @@ type Config struct {
 }
 
 type Repositories struct {
-	Equipment domain.Equipment
+	EquipmentRepo *EquipmentRepo
+	ItemTypeRepo  *ItemTypeRepo
+	StateRepo     *StateRepo
+	PurposeRepo   *PurposeRepo
+	OriginRepo    *OriginRepo
+	DocumentRepo  *DocumentRepo
+	PhotoRepo     *PhotoRepo
 }
 
 func InitDb(cfg Config) (*gorm.DB, error) {
@@ -36,13 +42,29 @@ func InitDb(cfg Config) (*gorm.DB, error) {
 		panic(fmt.Sprintf("could not connect to database: %s", err))
 	}
 
-	if err = db.AutoMigrate(&domain.Equipment{}); err != nil {
+	if err = db.AutoMigrate(
+		&domain.Equipment{},
+		&domain.ItemType{},
+		&domain.Origin{},
+		&domain.State{},
+		&domain.Purpose{},
+		&domain.Photo{},
+		&domain.Document{},
+	); err != nil {
 		panic(err)
 	}
 
 	return db, nil
 }
 
-func NewRepositories(cfg Config) (*Repositories, error) {
-	return &Repositories{}, nil
+func NewRepositories(db *gorm.DB) (*Repositories, error) {
+	return &Repositories{
+		EquipmentRepo: NewEquipmentRepo(db),
+		ItemTypeRepo:  NewItemTypeRepo(db),
+		StateRepo:     NewStateRepo(db),
+		PurposeRepo:   NewPurposeRepo(db),
+		OriginRepo:    NewOriginRepo(db),
+		DocumentRepo:  NewDocumentRepo(db),
+		PhotoRepo:     NewPhotoRepo(db),
+	}, nil
 }

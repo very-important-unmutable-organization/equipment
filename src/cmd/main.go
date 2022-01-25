@@ -1,28 +1,48 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"os"
+
+	"github.com/very-important-unmutable-organization/equipment/internal/admin"
+
+	_ "github.com/GoAdminGroup/go-admin/adapter/chi"
+	_ "github.com/GoAdminGroup/go-admin/modules/db/drivers/postgres"
+	_ "github.com/GoAdminGroup/go-admin/plugins/admin/modules"
+
+	"github.com/very-important-unmutable-organization/equipment/internal/service"
+	"github.com/very-important-unmutable-organization/equipment/internal/transport/rest"
+	"github.com/very-important-unmutable-organization/equipment/pkg/logger"
 
 	"github.com/very-important-unmutable-organization/equipment/config"
 	"github.com/very-important-unmutable-organization/equipment/internal/repository"
 
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
 	_ "gorm.io/driver/postgres"
 	_ "gorm.io/gorm"
 
 	"github.com/sirupsen/logrus"
-
-	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 
+// @title Equipment API
+// @version 1.0
+// @description mem
+
+// @BasePath /api/v1/
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name X-API-KEY
+
+// @securityDefinitions.apikey UserTokenAuth
+// @in header
+// @name Authorization
+
+// Run initializes whole application.
 func main() {
 	cfg := config.Init()
-	logrus.Println(cfg)
+
+	logger.InitLogger(logger.Config{ServiceName: "equipment-api", Debug: true})
 
 	db, err := repository.InitDb(repository.Config(cfg.Database))
 	if err != nil {
@@ -30,44 +50,17 @@ func main() {
 		return
 	}
 
-	r := chi.NewRouter()
+	repos, err := repository.NewRepositories(db)
+	if err != nil {
+		logrus.Errorf("error occured while initialzing db client: %s", err.Error())
+		return
+	}
 
-	r.Use(middleware.RequestID)
-	r.Use(middleware.RealIP)
-	r.Use(middleware.Logger)
-	r.Use(middleware.Recoverer)
+	services, _ := service.NewServices(repos)
 
-	r.Get("/equipment", func(w http.ResponseWriter, r *http.Request) {
-		equipments := new([]domain.Equipment)
-		res := db.Find(equipments)
-		if res.Error != nil {
-			http.Error(w, http.StatusText(500), 500)
-			return
-		}
-		enc := json.NewEncoder(w)
-		if err := enc.Encode(equipments); err != nil {
-			http.Error(w, http.StatusText(500), 500)
-			return
-		}
-	})
+	r := rest.NewRouter(repos, services, rest.RouterConfig(cfg.Router)).Init()
 
-	r.Post("/equipment", func(w http.ResponseWriter, r *http.Request) {
-		data, err := io.ReadAll(r.Body)
-		if err != nil {
-			http.Error(w, http.StatusText(500), 500)
-			return
-		}
-		eqt := new(domain.Equipment)
-		if err = json.Unmarshal(data, eqt); err != nil {
-			http.Error(w, http.StatusText(422), 422)
-			return
-		}
-		res := db.Create(eqt)
-		if res.Error != nil {
-			http.Error(w, http.StatusText(500), 500)
-			return
-		}
-	})
+	admin.Init(&cfg.Database, r)
 
 	port := os.Getenv("PORT")
 	if port == "" {

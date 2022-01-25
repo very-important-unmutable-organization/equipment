@@ -10,6 +10,7 @@ import (
 
 type AppConfig struct {
 	Database DatabaseConfig `mapstructure:",squash"`
+	Router   RouterConfig   `mapstructure:",squash"`
 }
 
 type DatabaseConfig struct {
@@ -18,6 +19,11 @@ type DatabaseConfig struct {
 	User     string `mapstructure:"postgres_user"`
 	Database string `mapstructure:"postgres_db"`
 	Password string `mapstructure:"postgres_password"`
+}
+
+type RouterConfig struct {
+	ApiToken       string `mapstructure:"api_secret"`
+	ApiTokenHeader string `mapstructure:"api_secret_header"`
 }
 
 func Init() *AppConfig {

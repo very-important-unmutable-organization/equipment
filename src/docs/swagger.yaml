@@ -1,0 +1,510 @@
+basePath: /api/v1/
+definitions:
+  responses.ErrorResponse:
+    properties:
+      error:
+        $ref: '#/definitions/responses.errorDetail'
+    type: object
+  responses.Response:
+    properties:
+      message:
+        type: string
+    type: object
+  responses.errorDetail:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    type: object
+  rest.createDocumentResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  rest.createEquipmentResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  rest.createItemTypeRequest:
+    properties:
+      category:
+        type: string
+      name:
+        type: string
+    type: object
+  rest.createItemTypeResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  rest.createOriginResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  rest.createPhotoResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  rest.createPurposeResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  rest.createStateResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+info:
+  contact: {}
+  description: mem
+  title: Equipment API
+  version: "1.0"
+paths:
+  /document:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Get all documents
+      tags:
+      - document
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createDocumentResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Create document
+      tags:
+      - document
+  /equipment:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all equipment
+      tags:
+      - equipment
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createEquipmentResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create equipment
+      tags:
+      - equipment
+  /equipment/{id}:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get equipment by its id
+      tags:
+      - equipment
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Equipment ID
+        in: path
+        name: equipment_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Edit equipment by id
+      tags:
+      - equipment
+  /equipment/free/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Equipment ID
+        in: path
+        name: equipment_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Mark equipment with given id as free
+      tags:
+      - equipment
+  /equipment/qr-code/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Equipment ID
+        in: path
+        name: equipment_id
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: ""
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get QR code for equipment with given id
+      tags:
+      - equipment
+  /equipment/take/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Equipment ID
+        in: path
+        name: equipment_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Mark equipment with given id as taken
+      tags:
+      - equipment
+  /origin:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all origins
+      tags:
+      - origin
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createOriginResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create origin
+      tags:
+      - origin
+  /photo:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all photos
+      tags:
+      - photo
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createPhotoResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create photo
+      tags:
+      - photo
+  /purpose:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all purposes
+      tags:
+      - purpose
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createPurposeResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create purpose
+      tags:
+      - purpose
+  /state:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all states
+      tags:
+      - state
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createStateResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create state
+      tags:
+      - state
+  /type:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all item types
+      tags:
+      - itemType
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User registration data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/rest.createItemTypeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.createItemTypeResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create item type
+      tags:
+      - itemType
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: X-API-KEY
+    type: apiKey
+  UserTokenAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

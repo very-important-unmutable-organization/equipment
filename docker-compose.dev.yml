@@ -1,0 +1,10 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      context: ./src
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./src:/app
+    env_file: .env
