@@ -2,11 +2,13 @@ package admin
 
 import (
 	"fmt"
+
 	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/modules/db"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
 	"github.com/GoAdminGroup/go-admin/template/types"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
+
 	"github.com/very-important-unmutable-organization/equipment/internal/domain"
 )
 
