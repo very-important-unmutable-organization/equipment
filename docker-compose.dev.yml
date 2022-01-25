@@ -7,3 +7,4 @@ services:
       dockerfile: dev.Dockerfile
     volumes:
       - ./src:/app
+    env_file: .env
