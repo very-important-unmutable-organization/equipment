@@ -1,6 +1,8 @@
 package admin
 
 import (
+	"net/http"
+
 	_ "github.com/GoAdminGroup/go-admin/adapter/chi"
 	"github.com/GoAdminGroup/go-admin/engine"
 	adminConfig "github.com/GoAdminGroup/go-admin/modules/config"
@@ -10,7 +12,6 @@ import (
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
 	"github.com/GoAdminGroup/themes/adminlte"
 	"github.com/go-chi/chi"
-	"net/http"
 
 	"github.com/very-important-unmutable-organization/equipment/config"
 )
@@ -58,7 +59,7 @@ func Init(cfg *config.DatabaseConfig, router *chi.Mux) {
 		AddDisplayFilterXssJsFilter().
 		Use(router)
 
-	router.Get("/admin", func (w http.ResponseWriter, r *http.Request) {
+	router.Get("/admin", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/admin/info/equipment", http.StatusPermanentRedirect)
 	})
 
