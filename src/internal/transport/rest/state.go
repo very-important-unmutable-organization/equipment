@@ -44,11 +44,16 @@ type createStateResponse struct {
 	Id uint `json:"id"`
 }
 
+type createStateRequest struct { // nolint:unused,deadcode
+	Name string `json:"name"`
+}
+
 // @Summary  Create state
 // @Security ApiKeyAuth
 // @Tags state
 // @Accept  json
 // @Produce  json
+// @Param input body createStateRequest true "State parameters"
 // @Success 200 {object} createStateResponse
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 422 {object} responses.ErrorResponse

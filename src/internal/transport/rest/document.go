@@ -44,11 +44,17 @@ type createDocumentResponse struct {
 	Id uint `json:"id"`
 }
 
+type createDocumentRequest struct { // nolint:unused,deadcode
+	ItemID   uint `json:"item_id"`
+	Location string
+}
+
 // @Summary  Create document
 // @Security ApiKeyAuth
 // @Tags document
 // @Accept  json
 // @Produce  json
+// @Param input body createDocumentRequest true "Document parameters"
 // @Success 200 {object} createDocumentResponse
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 422 {object} responses.ErrorResponse

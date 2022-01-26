@@ -6,6 +6,9 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"time"
+
+	"github.com/shopspring/decimal"
 
 	"github.com/go-chi/chi"
 	"gorm.io/gorm"
@@ -51,11 +54,28 @@ type createEquipmentResponse struct {
 	Id uint `json:"id"`
 }
 
+type equipmentRequest struct { // nolint:unused,deadcode
+	Category        domain.Category
+	Name            string
+	Description     string
+	SerialNumber    string `json:"serial_number"`
+	TypeCode        int    `json:"type_code"`
+	Status          domain.Status
+	StateCode       int       `json:"state_code"`
+	PurposeCode     int       `json:"purpose_code"`
+	PurchaseDate    time.Time `json:"purchase_date"`
+	Price           decimal.Decimal
+	Currency        domain.Currency
+	OriginCode      int `json:"origin_code"`
+	Characteristics domain.JSONB
+}
+
 // @Summary  Create equipment
 // @Security ApiKeyAuth
 // @Tags equipment
 // @Accept  json
 // @Produce  json
+// @Param input body equipmentRequest true "Equipment parameters"
 // @Success 200 {object} createEquipmentResponse
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 422 {object} responses.ErrorResponse
@@ -116,6 +136,7 @@ func (h *EquipmentHandler) getEquipmentById(w http.ResponseWriter, r *http.Reque
 // @Tags equipment
 // @Accept  json
 // @Produce  json
+// @Param input body equipmentRequest true "Equipment parameters"
 // @Param id path string true "Equipment ID"
 // @Success 200 {object} responses.Response
 // @Failure 401 {object} responses.ErrorResponse
