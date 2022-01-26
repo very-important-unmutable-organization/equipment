@@ -44,11 +44,17 @@ type createPhotoResponse struct {
 	Id uint `json:"id"`
 }
 
+type createPhotoRequest struct { // nolint:unused,deadcode
+	ItemID   uint `json:"item_id"`
+	Location string
+}
+
 // @Summary  Create photo
 // @Security ApiKeyAuth
 // @Tags photo
 // @Accept  json
 // @Produce  json
+// @Param input body createPhotoRequest true "Photo parameters"
 // @Success 200 {object} createPhotoResponse
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 422 {object} responses.ErrorResponse

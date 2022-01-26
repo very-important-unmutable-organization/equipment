@@ -44,11 +44,17 @@ type createPurposeResponse struct {
 	Id uint `json:"id"`
 }
 
+type createPurposeRequest struct { // nolint:unused,deadcode
+	Type                   domain.PurposeType `json:"type"`
+	ResponsibleEmployeeUID string             `json:"responsible_uid"`
+}
+
 // @Summary  Create purpose
 // @Security ApiKeyAuth
 // @Tags purpose
 // @Accept  json
 // @Produce  json
+// @Param input body createPurposeRequest true "Purpose parameters"
 // @Success 200 {object} createPurposeResponse
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 422 {object} responses.ErrorResponse

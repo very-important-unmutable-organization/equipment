@@ -54,7 +54,7 @@ type createItemTypeRequest struct { // nolint:unused,deadcode
 // @Tags itemType
 // @Accept  json
 // @Produce  json
-// @Param input body createItemTypeRequest true "User registration data"
+// @Param input body createItemTypeRequest true "Item type parameters"
 // @Success 200 {object} createItemTypeResponse
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 422 {object} responses.ErrorResponse

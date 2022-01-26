@@ -4,20 +4,20 @@ import (
 	"database/sql/driver"
 )
 
-type currency string
+type Currency string
 
 const (
-	Ruble currency = "ruble"
-	USD   currency = "usd"
-	Pound currency = "pound"
-	Euro  currency = "euro"
+	Ruble Currency = "ruble"
+	USD   Currency = "usd"
+	Pound Currency = "pound"
+	Euro  Currency = "euro"
 )
 
-func (p *currency) Scan(value interface{}) error {
-	*p = currency(value.(string))
+func (p *Currency) Scan(value interface{}) error {
+	*p = Currency(value.(string))
 	return nil
 }
 
-func (p currency) Value() (driver.Value, error) {
+func (p Currency) Value() (driver.Value, error) {
 	return string(p), nil
 }

@@ -41,7 +41,7 @@ type Equipment struct {
 	Purpose         Purpose         `gorm:"foreignKey:PurposeCode"`
 	PurchaseDate    time.Time       `gorm:"not null" json:"purchase_date"`
 	Price           decimal.Decimal `gorm:"not null"`
-	Currency        currency        `gorm:"type:currency;default:ruble"`
+	Currency        Currency        `gorm:"type:currency;default:ruble"`
 	OriginCode      int             `gorm:"not null" json:"origin_code"`
 	Origin          Origin          `gorm:"foreignKey:OriginCode"`
 	Characteristics JSONB           `gorm:"type:jsonb"`

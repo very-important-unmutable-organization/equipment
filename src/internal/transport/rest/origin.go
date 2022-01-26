@@ -44,11 +44,17 @@ type createOriginResponse struct {
 	Id uint `json:"id"`
 }
 
+type createOriginRequest struct { // nolint:unused,deadcode
+	Type        domain.OriginType
+	EmployeeUID string `json:"employee_uid"`
+}
+
 // @Summary  Create origin
 // @Security ApiKeyAuth
 // @Tags origin
 // @Accept  json
 // @Produce  json
+// @Param input body createOriginRequest true "Origin parameters"
 // @Success 200 {object} createOriginResponse
 // @Failure 401 {object} responses.ErrorResponse
 // @Failure 422 {object} responses.ErrorResponse
