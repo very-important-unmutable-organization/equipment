@@ -10,6 +10,7 @@ import (
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
 	"github.com/GoAdminGroup/themes/adminlte"
 	"github.com/go-chi/chi"
+	"net/http"
 
 	"github.com/very-important-unmutable-organization/equipment/config"
 )
@@ -56,6 +57,10 @@ func Init(cfg *config.DatabaseConfig, router *chi.Mux) {
 		AddGenerators(Generators).
 		AddDisplayFilterXssJsFilter().
 		Use(router)
+
+	router.Get("/admin", func (w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/admin/info/equipment", http.StatusPermanentRedirect)
+	})
 
 	if err != nil {
 		panic(err)
